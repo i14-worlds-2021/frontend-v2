@@ -5,11 +5,12 @@ import {makeStyles} from '@material-ui/core/styles';
 
 /* Routing Imports --------------------------------------------------------------- */
 // noinspection ES6CheckImport
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, BrowserRouter, Redirect} from 'react-router-dom';
 
 
 /* Component Imports ------------------------------------------------------------- */
 import {Breakpoint} from "react-socks";
+import {CMS_URL} from "../constants";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -113,6 +114,11 @@ export const Router = () => (
                     content(contact-us)
                     footer
                 </Route>
+
+                <Route exact strict path="/login" render={() => {
+                    window.location.href = CMS_URL + "admin";
+                    return null;
+                }}/>
 
                 <Route>
                     content(404 -> index)
