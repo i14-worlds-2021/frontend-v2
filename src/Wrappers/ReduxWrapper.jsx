@@ -42,6 +42,10 @@ function storeReducer(state = {
 let store = createStore(storeReducer);
 
 
+// TODO: Initial Load for schedule, gallery, countryHosts and contacts in here
+//       On pages: Show loader when the respective array is empty
+
+
 export const ReduxWrapper = (props) => {
 
     return (

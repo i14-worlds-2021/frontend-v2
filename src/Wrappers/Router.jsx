@@ -11,6 +11,14 @@ import {Switch, Route, BrowserRouter, Redirect} from 'react-router-dom';
 /* Component Imports ------------------------------------------------------------- */
 import {Breakpoint} from "react-socks";
 import {CMS_URL} from "../constants";
+import IndexPage from "../Pages/IndexPage/IndexPage";
+import EventPage from "../Pages/EventPage/EventPage";
+import NewsPage from "../Pages/NewsPage/NewsPage";
+import ArticlePage from "../Pages/ArticlePage/ArticlePage";
+import GuidePage from "../Pages/GuidePage/GuidePage";
+import GalleryPage from "../Pages/GalleryPage/GalleryPage";
+import AlbumPage from "../Pages/AlbumPage/AlbumPage";
+import ContactPage from "../Pages/ContactPage/ContactPage";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -70,48 +78,48 @@ export const Router = () => (
         <Route>
             <Switch>
                 <Route exact strict path="/">
-                    index
+                    <IndexPage/>
                 </Route>
 
                 <Route exact strict path="/event">
                     navbar
-                    content(event)
+                    content(<EventPage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/news">
                     navbar
-                    content(news)
+                    content(<NewsPage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/news/:id">
                     navbar
-                    content(news-article)
+                    content(<ArticlePage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/sailors-guide">
                     navbar
-                    content(sailors-guide)
+                    content(<GuidePage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/gallery">
                     navbar
-                    content(gallery)
+                    content(<GalleryPage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/gallery/:id">
                     navbar
-                    content(gallery-album)
+                    content(<AlbumPage/>)
                     footer
                 </Route>
 
                 <Route exact strict path="/contact-us">
                     navbar
-                    content(contact-us)
+                    content(<ContactPage/>)
                     footer
                 </Route>
 
