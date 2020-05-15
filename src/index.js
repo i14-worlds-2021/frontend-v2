@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Wrapper} from './Wrappers/Wrapper';
 import * as serviceWorker from './serviceWorker';
-
-import './index.scss';
-import {Wrapper} from "./Wrappers/Wrapper";
 
 ReactDOM.render(<Wrapper />, document.getElementById('root'));
 
