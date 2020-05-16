@@ -3,9 +3,8 @@ import React from 'react';
 import {connect} from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Grid from "@material-ui/core/Grid";
-import clsx from "clsx";
 import {makeStyles} from "@material-ui/core/styles";
+import ScheduleTable from "./ScheduleTable/ScheduleTable";
 
 const useStyles = makeStyles(theme => ({
     headline: {
@@ -31,9 +30,7 @@ function GuidePageComponent (props) {
 
             {!(props.scheduleDays.loading) && (
                 <React.Fragment>
-                    {props.scheduleDays.data.map((contact, index) => (
-                        "day"
-                    ))}
+                    <ScheduleTable days={props.scheduleDays.data}/>
                 </React.Fragment>
             )}
         </React.Fragment>
