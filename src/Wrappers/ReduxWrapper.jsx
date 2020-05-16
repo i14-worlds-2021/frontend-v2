@@ -6,6 +6,7 @@ import {Provider} from "react-redux";
 
 
 function storeReducer(state = {
+    loading: true,
     schedule: [],
     gallery: [],
     countryHosts: [],
@@ -43,7 +44,7 @@ let store = createStore(storeReducer);
 
 
 // TODO: Initial Load for schedule, gallery, countryHosts and contacts in here
-//       On pages: Show loader when the respective array is empty
+//       On pages: Show loader when state.loading is true
 
 
 export const ReduxWrapper = (props) => {

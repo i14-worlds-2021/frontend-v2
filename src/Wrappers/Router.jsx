@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 /* Routing Imports --------------------------------------------------------------- */
 // noinspection ES6CheckImport
-import {Switch, Route, BrowserRouter, Redirect} from 'react-router-dom';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
 
 
 /* Component Imports ------------------------------------------------------------- */
