@@ -104,11 +104,11 @@ function ContactCard (props) {
                     </div>
                     <div>
                         <MailTwoToneIcon className={classes.contactIcon}/>
-                        <Typography variant="body1"
-                                    className={classes.contactLabel}>
-                            <a className={classes.contactEmail}
-                               href={"mailto:" + props.contact.email}
-                               target="_blank">{props.contact.email}</a>
+                        <Typography variant="body1" className={classes.contactLabel}>
+                            <a className={classes.contactEmail} href={"mailto:" + props.contact.email}
+                               target="_blank" rel="noopener noreferrer">
+                                {props.contact.email}
+                            </a>
                         </Typography>
                     </div>
                 </CardContent>
@@ -121,8 +121,6 @@ function ContactCard (props) {
 function ContactPageComponent (props) {
 
     const classes = useStyles();
-
-    console.log(props);
 
     return (
         <React.Fragment>
@@ -159,6 +157,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = () => ({
 });
 
-const ContactPage = connect(mapStateToProps, mapDispatchToProps)(ContactPageComponent);
-
-export default ContactPage;
+export default connect(mapStateToProps, mapDispatchToProps)(ContactPageComponent);
