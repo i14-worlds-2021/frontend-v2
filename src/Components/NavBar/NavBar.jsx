@@ -103,7 +103,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const NavBar = () => {
+function NavBar() {
 
 	const [drawerIsOpen, toggleDrawer] = useState(false);
 	const path = window.location.pathname;

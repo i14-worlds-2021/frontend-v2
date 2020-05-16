@@ -21,6 +21,7 @@ import AlbumPage from "../Pages/AlbumPage/AlbumPage";
 import ContactPage from "../Pages/ContactPage/ContactPage";
 import NavBar from "../Components/NavBar/NavBar";
 import Container from "@material-ui/core/Container";
+import Footer from "../Components/Footer/Footer";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -33,15 +34,16 @@ const useStyles = makeStyles(theme => ({
         position: "relative",
         display: "block"
     },
-    childrenMobile: {
+    contentMobile: {
         position: "relative",
-        paddingTop: theme.spacing(13.65),
+        marginTop: theme.spacing(0.65),
+        paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
     },
-    children: {
+    content: {
         position: "relative",
-        paddingTop: theme.spacing(14),
-        paddingBottom: theme.spacing(6),
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
     },
     toolbar: theme.mixins.toolbar,
 }));
@@ -54,7 +56,8 @@ const Content = (props) => {
             <NavBar/>
             <Breakpoint small down>
                 <div className={classes.contentContainer}>
-                    <div className={classes.childrenMobile}>
+                    <div className={classes.toolbar}/>
+                    <div className={classes.contentMobile}>
                         <Container maxWidth="md">
                             {props.children}
                         </Container>
@@ -63,14 +66,15 @@ const Content = (props) => {
             </Breakpoint>
             <Breakpoint medium up>
                 <div className={classes.contentContainer}>
-                    <div className={classes.children}>
+                    <div className={classes.toolbar}/>
+                    <div className={classes.content}>
                         <Container maxWidth="md">
                             {props.children}
                         </Container>
                     </div>
                 </div>
             </Breakpoint>
-            footer
+            <Footer/>
         </React.Fragment>
     );
 };
@@ -87,7 +91,7 @@ export const Router = () => (
                 <Route exact strict path="/event">
                     <NavBar/>
                     <EventPage/>
-                    footer
+                    <Footer/>
                 </Route>
 
                 <Route exact strict path="/news-feed">
