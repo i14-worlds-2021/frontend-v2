@@ -31,22 +31,15 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
-    paper: {
-        padding: theme.spacing(1)
-    },
-    contact_line: {
+    contactLine: {
         display: "block",
         padding: theme.spacing(1),
     },
-    country_line: {
-        display: "block",
-        padding: 0,
-    },
-    contact_icon: {
+    contactIcon: {
         display: "inline-flex",
         verticalAlign: "top"
     },
-    contact_label: {
+    contactLabel: {
         display: "inline-flex",
         verticalAlign: "top",
         marginTop: 0,
@@ -55,6 +48,10 @@ const useStyles = makeStyles(theme => ({
         marginRight: 0,
         whiteSpace: "nowrap",
         overflow: "hidden"
+    },
+    contactEmail: {
+        color: "inherit",
+        textDecoration: "none"
     },
     card: {
         position: "relative",
@@ -74,7 +71,7 @@ const useStyles = makeStyles(theme => ({
             paddingBottom: theme.spacing(2),
         }
     },
-    countryLinePadding: {
+    contactLinePadding: {
         paddingBottom: theme.spacing(2),
     }
 }));
@@ -87,24 +84,34 @@ function ContactCard (props) {
 
     return (
         <Grid item xs={12} sm={6} md={5} lg={5} xl={5}>
-            <Card className={classes.paper} elevation={3}>
+            <Card elevation={3}>
+                <CardMedia
+                    className={classes.cardMedia}
+                    image={props.contact.image.url}
+                />
+                <CardContent className={classes.cardContent}>
+                    {!props.countryHost && (
+                        <div className={classes.contactLinePadding}>
+                            <AssignmentTwoToneIcon className={classes.contactIcon}/>
+                            <Typography variant="body1" className={classes.contactLabel}>{props.contact.role}</Typography>
+                        </div>
+                    )}
 
-                {!props.countryHost && (
-                    <div className={classes.contact_line}>
-                        <AssignmentTwoToneIcon className={classes.contact_icon}/>
-                        <Typography variant="body1" className={classes.contact_label}>{props.contact.role}</Typography>
+                    <div className={classes.contactLinePadding}>
+                        <PersonOutlineTwoToneIcon className={classes.contactIcon}/>
+                        <Typography variant="body1"
+                                    className={classes.contactLabel}>{props.contact.name}</Typography>
                     </div>
-                )}
-
-                <div className={classes.contact_line}>
-                    <PersonOutlineTwoToneIcon className={classes.contact_icon}/>
-                    <Typography variant="body1" className={classes.contact_label}>{props.contact.name}</Typography>
-                </div>
-
-                <div className={classes.contact_line}>
-                    <MailTwoToneIcon className={classes.contact_icon}/>
-                    <Typography variant="body1" className={classes.contact_label}>{props.contact.email}</Typography>
-                </div>
+                    <div>
+                        <MailTwoToneIcon className={classes.contactIcon}/>
+                        <Typography variant="body1"
+                                    className={classes.contactLabel}>
+                            <a className={classes.contactEmail}
+                               href={"mailto:" + props.contact.email}
+                               target="_blank">{props.contact.email}</a>
+                        </Typography>
+                    </div>
+                </CardContent>
 
             </Card>
         </Grid>
@@ -126,9 +133,17 @@ function ContactPageComponent (props) {
 
             {!(props.contacts.loading || props.countryHosts.loading) && (
                 <React.Fragment>
-                    contact list
+                    <Grid container spacing={2} justify="center">
+                        {props.contacts.data.map((contact, index) => (
+                            <ContactCard contact={contact}/>
+                        ))}
+                    </Grid>
                     <Typography variant="h4" className={clsx(classes.headline, classes.headline2)}>Country Hosts</Typography>
-                    country host list
+                    <Grid container spacing={2} justify="center">
+                        {props.countryHosts.data.map((contact, index) => (
+                            <ContactCard contact={contact} countryHost/>
+                        ))}
+                    </Grid>
                 </React.Fragment>
             )}
         </React.Fragment>

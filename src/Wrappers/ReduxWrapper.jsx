@@ -6,28 +6,17 @@ import {Provider} from "react-redux";
 import axios from "axios";
 import {CMS_URL} from "../constants";
 
+let initialObject = {
+    loading: true,
+    data: [],
+}
 
 function storeReducer(state = {
-    articles: {
-        loading: true,
-        data: [],
-    },
-    albums: {
-        loading: true,
-        data: [],
-    },
-    scheduleDays: {
-        loading: true,
-        data: [],
-    },
-    contacts: {
-        loading: true,
-        data: [],
-    },
-    countryHosts: {
-        loading: true,
-        data: [],
-    }
+    articles: initialObject,
+    albums: initialObject,
+    scheduleDays: initialObject,
+    contacts: initialObject,
+    countryHosts: initialObject
 }, action) {
 
     let newState = {
@@ -75,9 +64,6 @@ function storeReducer(state = {
 let store = createStore(storeReducer);
 
 
-// TODO: Initial Load for schedule, gallery, countryHosts and contacts in here
-//       On pages: Show loader when state.loading is true
-
 const resources = [
     {url: "contacts", reduxAction: "SET_CONTACTS"},
     {url: "country-hosts", reduxAction: "SET_COUNTRY_HOSTS"},
@@ -85,6 +71,10 @@ const resources = [
 
 resources.forEach(resource => {
     axios.get(CMS_URL + resource.url).then(response => {
+        // The results arrive very fast (which is nice) However:
+        // Then the loading animation is only visible for a very
+        // brief moment and the result looks laggy because of the
+        // fast transitions (page load -> loading animation -> data)
         setTimeout(() => {
             store.dispatch({type: resource.reduxAction, data: response.data});
         }, 1000);
