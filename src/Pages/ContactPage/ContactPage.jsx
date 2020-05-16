@@ -120,9 +120,11 @@ function ContactPageComponent (props) {
     return (
         <React.Fragment>
             <Typography variant="h4" className={classes.headline}>Contact Us</Typography>
-            {props.loading && <LinearProgress className={classes.linearProgress} color="secondary"/>}
+            {(props.contacts.loading || props.countryHosts.loading) && (
+                <LinearProgress className={classes.linearProgress} color="secondary"/>
+            )}
 
-            {!props.loading && (
+            {!(props.contacts.loading || props.countryHosts.loading) && (
                 <React.Fragment>
                     contact list
                     <Typography variant="h4" className={clsx(classes.headline, classes.headline2)}>Country Hosts</Typography>
@@ -135,7 +137,6 @@ function ContactPageComponent (props) {
 
 
 const mapStateToProps = state => ({
-    loading: state.loading,
     contacts: state.contacts,
     countryHosts: state.countryHosts,
 });
