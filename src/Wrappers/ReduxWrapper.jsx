@@ -65,6 +65,7 @@ let store = createStore(storeReducer);
 
 
 const resources = [
+    {url: "blog-posts", reduxAction: "SET_ARTICLES"},
     {url: "schedule-days", reduxAction: "SET_SCHEDULE_DAYS"},
     {url: "contacts", reduxAction: "SET_CONTACTS"},
     {url: "country-hosts", reduxAction: "SET_COUNTRY_HOSTS"},

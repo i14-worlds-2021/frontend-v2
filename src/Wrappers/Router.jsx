@@ -130,7 +130,7 @@ export const Router = () => (
                     </Content>
                 </Route>
 
-                <Route exact strict path="/login" render={() => {
+                <Route exact strict path="/admin" render={() => {
                     window.location.href = CMS_URL + "admin";
                     return null;
                 }}/>
