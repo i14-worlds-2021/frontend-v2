@@ -155,11 +155,18 @@ function NewsPageComponent (props) {
             )}
 
             {!(props.articles.loading) && (
-                <Grid container spacing={2} justify="center">
-                    {props.articles.data.map((article, index) => (
-                        <ArticlePreview blogPost={article} key={index}/>
-                    ))}
-                </Grid>
+                <React.Fragment>
+                    {(props.articles.data.filter(article => article.visible).length === 0) && (
+                        <Typography variant="subtitle1" style={{textAlign: "center"}}>No posts yet ...</Typography>
+                    )}
+                    {(props.articles.data.filter(article => article.visible).length > 0) && (
+                        <Grid container spacing={2} justify="center">
+                            {props.articles.data.filter(article => article.visible).map((article, index) => (
+                                <ArticlePreview blogPost={article} key={index}/>
+                            ))}
+                        </Grid>
+                    )}
+                </React.Fragment>
             )}
         </React.Fragment>
     );
