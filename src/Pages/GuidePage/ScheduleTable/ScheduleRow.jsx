@@ -45,7 +45,7 @@ export default function ScheduleRow(props) {
 
 	let detailRows = props.day.events.map((event, index) => {
 		return (
-			<React.Fragment>
+			<React.Fragment key={index}>
 				{index !== 0 && (
 					<Grid item xs={12}>
 						<Divider className={classes.divider}/>
@@ -54,20 +54,20 @@ export default function ScheduleRow(props) {
 				<Grid item xs={12}>
 					<Breakpoint small down>
 						<Grid container justify="flex-start">
-							<Grid xs={12} md={2} className={clsx(classes.gridItem, classes.mobileDetailLabel)}>
+							<Grid item xs={12} md={2} className={clsx(classes.gridItem, classes.mobileDetailLabel)}>
 								<Typography variant="body1" style={{fontWeight: 500}}>{event.label}</Typography>
 							</Grid>
-							<Grid xs={12} md={10} className={classes.gridItem}>
+							<Grid item xs={12} md={10} className={classes.gridItem}>
 								<Typography variant="body1">{event.description}</Typography>
 							</Grid>
 						</Grid>
 					</Breakpoint>
 					<Breakpoint medium up>
 						<Grid container justify="flex-start">
-							<Grid xs={12} md={2} className={classes.gridItem}>
+							<Grid item xs={12} md={2} className={classes.gridItem}>
 								<Typography variant="body1" style={{fontWeight: 500}}>{event.label}</Typography>
 							</Grid>
-							<Grid xs={12} md={10} className={classes.gridItem}>
+							<Grid item xs={12} md={10} className={classes.gridItem}>
 								<Typography variant="body1">{event.description}</Typography>
 							</Grid>
 						</Grid>
@@ -77,6 +77,57 @@ export default function ScheduleRow(props) {
 		);
 	});
 
+	// I did this date-label conversion myself because I did
+	// not want any unncessary library (e.g. date-fns has a pretty
+	// hefty bundle for what I would use it for)
+
+	const day = parseInt(props.day.date.slice(8,10));
+	const month = parseInt(props.day.date.slice(5,7));
+
+	let dayLabel = day.toString();
+
+	/*
+	// looks nicer without!
+	if (day > 20) {
+		if (day % 10 === 1) {
+			dayLabel += "st";
+		} else if (day % 10 === 2) {
+			dayLabel += "nd";
+		} else if (day % 10 === 3) {
+			dayLabel += "rd";
+		} else {
+			dayLabel += "th";
+		}
+	} else {
+		dayLabel += "th";
+	}
+	*/
+
+
+	let monthLabel = "";
+	switch (month) {
+		case 6:
+			monthLabel = "Jun";
+			break;
+		case 7:
+			monthLabel = "Jul";
+			break;
+		case 8:
+			monthLabel = "Aug";
+			break;
+		case 9:
+			monthLabel = "Sep";
+			break;
+		case 10:
+			monthLabel = "Oct";
+			break;
+		default:
+			dayLabel = monthLabel = "";
+			break;
+	}
+
+	const dateLabel = monthLabel + " " + dayLabel + " ";
+
 	return (
 		<ExpansionPanel elevation={3} className={props.day.color === 1 ? classes.coloredRow : ""}>
 			<ExpansionPanelSummary
@@ -85,24 +136,24 @@ export default function ScheduleRow(props) {
 				id="panel1a-header">
 				<Breakpoint small down>
 					<Grid container justify="flex-start">
-						<Grid xs={12} className={classes.gridItem}>
-							<Typography variant="subtitle1">{props.day.date} ({props.day.weekday})</Typography>
+						<Grid item xs={12} className={classes.gridItem}>
+							<Typography variant="subtitle1">{dateLabel} ({props.day.weekday})</Typography>
 						</Grid>
-						<Grid xs={12} className={classes.gridItem}>
+						<Grid item xs={12} className={classes.gridItem}>
 							<Typography variant="subtitle1"><strong>{props.day.tag}</strong></Typography>
 						</Grid>
 					</Grid>
 				</Breakpoint>
 				<Breakpoint medium up style={{width: "100%"}}>
 					<Grid container justify="flex-start">
-						<Grid xs={2} className={classes.gridItem}>
-							<Typography variant="subtitle1">{props.day.date}</Typography>
+						<Grid item xs={2} className={classes.gridItem}>
+							<Typography variant="subtitle1">{dateLabel}</Typography>
 						</Grid>
-						<Grid xs={2} className={classes.gridItem}>
+						<Grid item xs={2} className={classes.gridItem}>
 							<Typography variant="subtitle1">{props.day.weekday}</Typography>
 						</Grid>
 
-						<Grid xs={2} className={classes.gridItem}>
+						<Grid item xs={2} className={classes.gridItem}>
 							<Typography variant="subtitle1">{props.day.tag}</Typography>
 						</Grid>
 					</Grid>

@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
 function ScheduleTable(props) {
 	const classes = useStyles();
 
-	let scheduleRows = props.days.map(day => {
+	let scheduleRows = props.days.map((day, index) => {
 		return (
-			<ScheduleRow day={day}/>
+			<ScheduleRow day={day} key={index}/>
 		);
 	});
 	return (
