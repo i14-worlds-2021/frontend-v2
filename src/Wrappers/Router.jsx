@@ -19,6 +19,7 @@ import GuidePage from "../Pages/GuidePage/GuidePage";
 import GalleryPage from "../Pages/GalleryPage/GalleryPage";
 import AlbumPage from "../Pages/AlbumPage/AlbumPage";
 import ContactPage from "../Pages/ContactPage/ContactPage";
+import NavBar from "../Components/NavBar/NavBar";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -82,45 +83,33 @@ export const Router = () => (
                 </Route>
 
                 <Route exact strict path="/event">
-                    navbar
-                    content(<EventPage/>)
+                    <NavBar loggedIn={false}/>
+                    <EventPage/>
                     footer
                 </Route>
 
                 <Route exact strict path="/news">
-                    navbar
                     content(<NewsPage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/news/:id">
-                    navbar
                     content(<ArticlePage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/sailors-guide">
-                    navbar
                     content(<GuidePage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/gallery">
-                    navbar
                     content(<GalleryPage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/gallery/:id">
-                    navbar
                     content(<AlbumPage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/contact-us">
-                    navbar
                     content(<ContactPage/>)
-                    footer
                 </Route>
 
                 <Route exact strict path="/login" render={() => {
@@ -130,7 +119,6 @@ export const Router = () => (
 
                 <Route>
                     content(404 -> index)
-                    footer
                 </Route>
             </Switch>
         </Route>
