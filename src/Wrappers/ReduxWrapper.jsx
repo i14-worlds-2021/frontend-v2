@@ -14,6 +14,7 @@ function storeReducer(state = {
 }, action) {
 
     let newState = {
+        loading: state.loading,
         schedule: state.schedule,
         gallery: state.gallery,
         countryHosts: state.countryHosts,
