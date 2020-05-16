@@ -19,7 +19,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
 import MenuIcon from '@material-ui/icons/Menu';
@@ -28,7 +27,6 @@ import ChatTwoToneIcon from '@material-ui/icons/ChatTwoTone';
 import PermMediaTwoToneIcon from '@material-ui/icons/PermMediaTwoTone';
 import AssignmentTurnedInTwoToneIcon from '@material-ui/icons/AssignmentTurnedInTwoTone';
 import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
-import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
 
 
 /* Asset Imports ----------------------------------------------------------- */
@@ -105,7 +103,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const NavBar = (props) => {
+const NavBar = () => {
 
 	const [drawerIsOpen, toggleDrawer] = useState(false);
 	const path = window.location.pathname;
@@ -114,20 +112,24 @@ const NavBar = (props) => {
 
 	let pageTitle = "";
 
-	if (path.startsWith("/event")) {
-		pageTitle = "Event";
-	} else if (path.startsWith("/news-feed") || path.startsWith("/admin/news-feed")) {
-		pageTitle = "News Feed";
-	} else if (path.startsWith("/gallery") || path.startsWith("/admin/gallery")) {
-		pageTitle = "Gallery";
-	} else if (path.startsWith("/sailors-guide")) {
-		pageTitle = "Sailors Guide";
-	} else if (path.startsWith("/contact-us") || path.startsWith("/admin/contact-us")) {
-		pageTitle = "Contact Us";
-	}
-
-	if (path.startsWith("/admin")) {
-		pageTitle += " (Admin)";
+	switch (path.slice(0,3)) {
+		case "/ev":
+			pageTitle = "Event";
+			break;
+		case "/ne":
+			pageTitle = "News Feed";
+			break;
+		case "/ga":
+			pageTitle = "Gallery";
+			break;
+		case "/sa":
+			pageTitle = "Sailors Guide";
+			break;
+		case "/co":
+			pageTitle = "Contact Us";
+			break;
+		default:
+			pageTitle = "404";
 	}
 
 	const handleClick = () => {
@@ -144,7 +146,6 @@ const NavBar = (props) => {
 				        startIcon={<EmojiEventsTwoToneIcon alt="Event Icon"/>}
 				        className={clsx(classes.button, classes.topButton)}>Event</Button>
 			</Link>
-			{/*
 			<Link to="/news-feed"
 			      className={classes.link}
 			      onClick={handleClick}>
@@ -160,7 +161,7 @@ const NavBar = (props) => {
 				        color={path.startsWith("/gallery") ? "secondary" : "primary"}
 				        startIcon={<PermMediaTwoToneIcon alt="Gallery Icon"/>}
 				        className={classes.button}>Gallery</Button>
-			</Link>*/}
+			</Link>
 			<Link to="/sailors-guide"
 			      className={classes.link}
 			      onClick={handleClick}>
@@ -179,65 +180,6 @@ const NavBar = (props) => {
 			</Link>
 		</React.Fragment>
 	);
-
-	const adminPages = (
-		<React.Fragment>
-			<Link to="/admin/news-feed"
-			      className={classes.link}
-			      onClick={handleClick}>
-				<Button size="large"
-				        color={path.startsWith("/admin/news-feed") ? "secondary" : "primary"}
-				        startIcon={<ChatTwoToneIcon alt="Admin News Feed Icon"/>}
-				        className={classes.button}>Admin - News Feed</Button>
-			</Link>
-			<Link to="/admin/gallery"
-			      className={classes.link}
-			      onClick={handleClick}>
-				<Button size="large"
-				        color={path.startsWith("/admin/gallery") ? "secondary" : "primary"}
-				        startIcon={<PermMediaTwoToneIcon alt="Admin Gallery Icon"/>}
-				        className={classes.button}>Admin - Gallery</Button>
-			</Link>
-			<Link to="/admin/contact-us"
-			      className={classes.link}
-			      onClick={handleClick}>
-				<Button size="large"
-				        color={path.startsWith("/admin/contact-us") ? "secondary" : "primary"}
-				        startIcon={<ContactMailTwoToneIcon alt="Admin Contact Us Icon"/>}
-				        className={classes.button}>Admin - Contact Us</Button>
-			</Link>
-		</React.Fragment>
-	);
-
-	let loginButton;
-
-	if (props.loggedIn) {
-		loginButton = (
-			<div className={classes.loginButtonBox}>
-				<Button size="large"
-				        startIcon={<AccountCircleTwoToneIcon alt="Logout Icon"/>}
-				        className={clsx(classes.button, classes.loginButton)}
-				        onClick={() => {
-					        handleClick();
-					        props.logoutUser();
-				        }}>
-					Logout
-				</Button>
-			</div>
-		);
-	} else {
-		loginButton = (
-			<Link to="/login"
-			      className={clsx(classes.link, classes.loginButtonBox)}
-			      onClick={handleClick}>
-				<Button size="large"
-				        startIcon={<AccountCircleTwoToneIcon alt="Login Icon"/>}
-				        className={clsx(classes.button, classes.loginButton)}>
-					Login
-				</Button>
-			</Link>
-		);
-	}
 
 	return (
 		<React.Fragment>
@@ -268,10 +210,7 @@ const NavBar = (props) => {
 				<div role="presentation" className={classes.drawerBox}>
 					<div className={classes.drawerScrollBox}>
 						{userPages}
-						{props.loggedIn && <Divider className={classes.divider}/>}
-						{props.loggedIn && adminPages}
 					</div>
-					{loginButton}
 				</div>
 			</Drawer>
 		</React.Fragment>
