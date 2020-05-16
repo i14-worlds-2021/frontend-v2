@@ -20,26 +20,28 @@ import GalleryPage from "../Pages/GalleryPage/GalleryPage";
 import AlbumPage from "../Pages/AlbumPage/AlbumPage";
 import ContactPage from "../Pages/ContactPage/ContactPage";
 import NavBar from "../Components/NavBar/NavBar";
+import Container from "@material-ui/core/Container";
 
 
 /* Component --------------------------------------------------------------------- */
 
 
 const useStyles = makeStyles(theme => ({
-    content: {
-        flexGrow: 1,
-        paddingLeft: 240,
-        width: "100vw",
-    },
-    contentMobile: {
-        flexGrow: 1,
-        width: "100vw",
-    },
-    fullHeightContainer: {
+    contentContainer: {
         minHeight: "100vh",
+        width: "100vw",
+        position: "relative",
+        display: "block"
+    },
+    childrenMobile: {
+        position: "relative",
+        paddingTop: theme.spacing(13.65),
+        paddingBottom: theme.spacing(6),
     },
     children: {
-        padding: theme.spacing(0),
+        position: "relative",
+        paddingTop: theme.spacing(14),
+        paddingBottom: theme.spacing(6),
     },
     toolbar: theme.mixins.toolbar,
 }));
@@ -49,26 +51,26 @@ const Content = (props) => {
 
     return (
         <React.Fragment>
+            <NavBar/>
             <Breakpoint small down>
-                <main className={classes.contentMobile}>
-                    <div className={classes.fullHeightContainer}>
-                        <div className={classes.children}>
+                <div className={classes.contentContainer}>
+                    <div className={classes.childrenMobile}>
+                        <Container maxWidth="md">
                             {props.children}
-                        </div>
+                        </Container>
                     </div>
-                    footer
-                </main>
+                </div>
             </Breakpoint>
             <Breakpoint medium up>
-                <main className={classes.content}>
-                    <div className={classes.fullHeightContainer}>
-                        <div className={classes.children}>
+                <div className={classes.contentContainer}>
+                    <div className={classes.children}>
+                        <Container maxWidth="md">
                             {props.children}
-                        </div>
+                        </Container>
                     </div>
-                    footer
-                </main>
+                </div>
             </Breakpoint>
+            footer
         </React.Fragment>
     );
 };
@@ -83,33 +85,45 @@ export const Router = () => (
                 </Route>
 
                 <Route exact strict path="/event">
-                    <NavBar loggedIn={false}/>
+                    <NavBar/>
                     <EventPage/>
                     footer
                 </Route>
 
-                <Route exact strict path="/news">
-                    content(<NewsPage/>)
+                <Route exact strict path="/news-feed">
+                    <Content>
+                        <NewsPage/>
+                    </Content>
                 </Route>
 
-                <Route exact strict path="/news/:id">
-                    content(<ArticlePage/>)
+                <Route exact strict path="/news-feed/:id">
+                    <Content>
+                        <ArticlePage/>
+                    </Content>
                 </Route>
 
                 <Route exact strict path="/sailors-guide">
-                    content(<GuidePage/>)
+                    <Content>
+                        <GuidePage/>
+                    </Content>
                 </Route>
 
                 <Route exact strict path="/gallery">
-                    content(<GalleryPage/>)
+                    <Content>
+                        <GalleryPage/>
+                    </Content>
                 </Route>
 
                 <Route exact strict path="/gallery/:id">
-                    content(<AlbumPage/>)
+                    <Content>
+                        <AlbumPage/>
+                    </Content>
                 </Route>
 
                 <Route exact strict path="/contact-us">
-                    content(<ContactPage/>)
+                    <Content>
+                        <ContactPage/>
+                    </Content>
                 </Route>
 
                 <Route exact strict path="/login" render={() => {
@@ -118,7 +132,9 @@ export const Router = () => (
                 }}/>
 
                 <Route>
-                    content(404 -> index)
+                    <Content>
+                        404 -> index
+                    </Content>
                 </Route>
             </Switch>
         </Route>

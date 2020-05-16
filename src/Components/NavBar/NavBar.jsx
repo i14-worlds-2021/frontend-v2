@@ -112,24 +112,24 @@ const NavBar = () => {
 
 	let pageTitle = "";
 
-	switch (path.slice(0,3)) {
-		case "/ev":
+	switch (path.split("/")[1]) {
+		case "event":
 			pageTitle = "Event";
 			break;
-		case "/ne":
+		case "news-feed":
 			pageTitle = "News Feed";
 			break;
-		case "/ga":
+		case "gallery":
 			pageTitle = "Gallery";
 			break;
-		case "/sa":
+		case "sailors-guide":
 			pageTitle = "Sailors Guide";
 			break;
-		case "/co":
+		case "contact-us":
 			pageTitle = "Contact Us";
 			break;
 		default:
-			pageTitle = "404";
+			break;
 	}
 
 	const handleClick = () => {
