@@ -71,14 +71,18 @@ function storeReducer(state = {
 
         case "SET_IMAGE_SLIDER_INDEX":
             newState.imageSlider = {
-                open: true,
+                open: newState.imageSlider.open,
                 images: newState.imageSlider.images,
                 index: action.index
             };
             break;
 
         case "CLOSE_IMAGE_SLIDER":
-            newState.imageSlider.open = false;
+            newState.imageSlider = {
+                open: false,
+                images: newState.imageSlider.images,
+                index: newState.imageSlider.index
+            };
             break;
 
         default:
@@ -112,7 +116,7 @@ resources.forEach(resource => {
 })
 
 
-export const ReduxWrapper = (props) => {
+const ReduxWrapper = (props) => {
 
     return (
         <Provider store={store}>
@@ -121,3 +125,4 @@ export const ReduxWrapper = (props) => {
     );
 };
 
+export default ReduxWrapper;

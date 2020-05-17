@@ -11,6 +11,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import clsx from 'clsx';
 import {makeStyles} from "@material-ui/core/styles";
+import {connect} from "react-redux";
+import {setImageSliderIndex, closeImageSlider} from "../../Wrappers/ReduxActions";
 
 const useStyles = makeStyles(theme => ({
 	imageSlider: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-function ImageSlider (props) {
+function ImageSliderComponent (props) {
 
 	const classes = useStyles();
 
@@ -53,8 +55,8 @@ function ImageSlider (props) {
 
 	document.addEventListener("keydown", event => {
 		if (event.key === "Escape") {
-			props.close();
-		} else if (props.images.length > 1) {
+			props.closeImageSlider();
+		} else if (props.imageSlider.images.length > 1) {
 			if (event.key === "ArrowLeft") {
 				handleLeftClick();
 			} else if (event.key === "ArrowRight") {
@@ -64,19 +66,21 @@ function ImageSlider (props) {
 	});
 
 	function handleLeftClick() {
-		let newIndex = props.index - 1;
+		let newIndex = props.imageSlider.index - 1;
 		if (newIndex < 0) {
-			newIndex += props.images.length;
+			newIndex += props.imageSlider.images.length;
 		}
 		setLoading(true);
-		props.setIndex(newIndex);
+		props.setImageSliderIndex(newIndex);
 	}
 
 	function handleRightClick() {
-		let newIndex = (props.index + 1) % props.images.length;
+		let newIndex = (props.imageSlider.index + 1) % props.imageSlider.images.length;
 		setLoading(true);
-		props.setIndex(newIndex);
+		props.setImageSliderIndex(newIndex);
 	}
+
+	const imageURL = props.imageSlider.images[props.imageSlider.index].image.url;
 
 	return (
 		<div className={clsx(classes.imageSlider, "ImageSlider")}>
@@ -86,7 +90,7 @@ function ImageSlider (props) {
 					  elevation={3}
 					  style={{display: loading ? "none" : "block"}}>
 					<img className={classes.img}
-						 src={props.images[props.index].image.url}
+						 src={imageURL}
 						 alt={"identifier"}
 						 onLoad={() => setLoading(false)}
 					/>
@@ -95,10 +99,10 @@ function ImageSlider (props) {
 			<IconButton
 				className={clsx(classes.icon, classes.closeIcon)}
 				size="medium"
-				onClick={props.handleClose}>
+				onClick={props.closeImageSlider}>
 				<CloseIcon/>
 			</IconButton>
-			{(props.images.length > 1) && (
+			{(props.imageSlider.images.length > 1) && (
 				<React.Fragment>
 					<IconButton
 						className={clsx(classes.icon, classes.prevIcon)}
@@ -120,4 +124,14 @@ function ImageSlider (props) {
 
 }
 
-export default ImageSlider;
+
+const mapStateToProps = state => ({
+	imageSlider: state.imageSlider,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index)),
+	closeImageSlider: () => dispatch(closeImageSlider()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageSliderComponent);

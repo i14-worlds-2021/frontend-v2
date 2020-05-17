@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 /* Routing Imports --------------------------------------------------------------- */
 // noinspection ES6CheckImport
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, BrowserRouter, withRouter} from 'react-router-dom';
 
 
 /* Component Imports ------------------------------------------------------------- */
@@ -22,6 +22,8 @@ import ContactPage from "../Pages/ContactPage/ContactPage";
 import NavBar from "../Components/NavBar/NavBar";
 import Container from "@material-ui/core/Container";
 import Footer from "../Components/Footer/Footer";
+import {connect} from "react-redux";
+import ImageSlider from "../Components/ImageSlider/ImageSlider";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -80,67 +82,85 @@ const Content = (props) => {
 };
 
 
-export const Router = () => (
-    <BrowserRouter>
-        <Route>
-            <Switch>
-                <Route exact strict path="/">
-                    <IndexPage/>
-                </Route>
-
-                <Route exact strict path="/event">
-                    <NavBar/>
-                    <EventPage/>
-                    <Footer/>
-                </Route>
-
-                <Route exact strict path="/news-feed">
-                    <Content>
-                        <NewsPage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/news-feed/:identifier">
-                    <Content>
-                        <ArticlePage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/sailors-guide">
-                    <Content>
-                        <GuidePage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/gallery">
-                    <Content>
-                        <GalleryPage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/gallery/:identifier">
-                    <Content>
-                        <AlbumPage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/contact-us">
-                    <Content>
-                        <ContactPage/>
-                    </Content>
-                </Route>
-
-                <Route exact strict path="/admin" render={() => {
-                    window.location.href = CMS_URL + "admin";
-                    return null;
-                }}/>
-
+const RouterComponent = (props) => {
+    if (props.imageSlider.open) {
+        return (
+            <ImageSlider/>
+        );
+    } else {
+        return (
+            <BrowserRouter>
                 <Route>
-                    <Content>
-                        404 -> index
-                    </Content>
+                    <Switch>
+                        <Route exact strict path="/">
+                            <IndexPage/>
+                        </Route>
+
+                        <Route exact strict path="/event">
+                            <NavBar/>
+                            <EventPage/>
+                            <Footer/>
+                        </Route>
+
+                        <Route exact strict path="/news-feed">
+                            <Content>
+                                <NewsPage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/news-feed/:identifier">
+                            <Content>
+                                <ArticlePage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/sailors-guide">
+                            <Content>
+                                <GuidePage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/gallery">
+                            <Content>
+                                <GalleryPage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/gallery/:identifier">
+                            <Content>
+                                <AlbumPage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/contact-us">
+                            <Content>
+                                <ContactPage/>
+                            </Content>
+                        </Route>
+
+                        <Route exact strict path="/admin" render={() => {
+                            window.location.href = CMS_URL + "admin";
+                            return null;
+                        }}/>
+
+                        <Route>
+                            <Content>
+                                404 -> index
+                            </Content>
+                        </Route>
+                    </Switch>
                 </Route>
-            </Switch>
-        </Route>
-    </BrowserRouter>
-);
+            </BrowserRouter>
+        )
+    }
+}
+
+
+const mapStateToProps = state => ({
+    imageSlider: state.imageSlider,
+});
+
+const mapDispatchToProps = () => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RouterComponent);

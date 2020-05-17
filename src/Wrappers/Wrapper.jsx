@@ -10,8 +10,8 @@ import './Wrapper.scss';
 
 
 /* Component Imports ------------------------------------------------------------- */
-import {ReduxWrapper} from "./ReduxWrapper";
-import {Router} from "./Router";
+import ReduxWrapper from "./ReduxWrapper";
+import Router from "./Router";
 
 
 /* Component --------------------------------------------------------------------- */
