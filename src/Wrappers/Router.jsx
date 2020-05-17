@@ -14,7 +14,7 @@ import {CMS_URL} from "../constants";
 import IndexPage from "../Pages/IndexPage/IndexPage";
 import EventPage from "../Pages/EventPage/EventPage";
 import NewsPage from "../Pages/NewsPage/NewsPage";
-import ArticlePage from "../Pages/ArticlePage/ArticlePage";
+import ArticlePage from "../Pages/BlogPostPage/BlogPostPage";
 import GuidePage from "../Pages/GuidePage/GuidePage";
 import GalleryPage from "../Pages/GalleryPage/GalleryPage";
 import AlbumPage from "../Pages/AlbumPage/AlbumPage";
@@ -100,7 +100,7 @@ export const Router = () => (
                     </Content>
                 </Route>
 
-                <Route exact strict path="/news-feed/:id">
+                <Route exact strict path="/news-feed/:identifier">
                     <Content>
                         <ArticlePage/>
                     </Content>
@@ -118,7 +118,7 @@ export const Router = () => (
                     </Content>
                 </Route>
 
-                <Route exact strict path="/gallery/:id">
+                <Route exact strict path="/gallery/:identifier">
                     <Content>
                         <AlbumPage/>
                     </Content>
