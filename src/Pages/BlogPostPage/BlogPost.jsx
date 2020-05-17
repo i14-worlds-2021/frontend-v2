@@ -1,7 +1,6 @@
 /* General Imports --------------------------------------------------------------- */
 import React, {useState} from "react";
 import {animateScroll as scroll} from "react-scroll";
-import snarkdown from 'snarkdown';
 import marked from 'marked';
 
 /* Routing Imports --------------------------------------------------------------- */
