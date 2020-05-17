@@ -64,7 +64,7 @@ function ImageSlider (props) {
 	});
 
 	function handleLeftClick() {
-		let newIndex = props.imageSliderIndex - 1;
+		let newIndex = props.index - 1;
 		if (newIndex < 0) {
 			newIndex += props.images.length;
 		}
@@ -73,7 +73,7 @@ function ImageSlider (props) {
 	}
 
 	function handleRightClick() {
-		let newIndex = (props.imageSliderIndex + 1) % props.images.length;
+		let newIndex = (props.index + 1) % props.images.length;
 		setLoading(true);
 		props.setIndex(newIndex);
 	}
@@ -81,13 +81,12 @@ function ImageSlider (props) {
 	return (
 		<div className={clsx(classes.imageSlider, "ImageSlider")}>
 			<div className="Image">
-				<CircularProgress color="secondary"
-								  style={{display: loading ? "block" : "none"}}/>
+				<CircularProgress style={{color: "white", display: loading ? "block" : "none"}}/>
 				<Card className={classes.card}
 					  elevation={3}
-					  style={{display: this.state.loading ? "none" : "block"}}>
+					  style={{display: loading ? "none" : "block"}}>
 					<img className={classes.img}
-						 src={"https://wallpaperaccess.com/full/25637.jpg"}
+						 src={props.images[props.index].image.url}
 						 alt={"identifier"}
 						 onLoad={() => setLoading(false)}
 					/>
@@ -96,7 +95,7 @@ function ImageSlider (props) {
 			<IconButton
 				className={clsx(classes.icon, classes.closeIcon)}
 				size="medium"
-				onClick={this.props.closeImageSlider}>
+				onClick={props.handleClose}>
 				<CloseIcon/>
 			</IconButton>
 			{(props.images.length > 1) && (

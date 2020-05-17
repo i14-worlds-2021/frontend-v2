@@ -170,7 +170,7 @@ function BlogPost(props) {
 				<ImageSlider images={props.blogPost.images}
 							 index={imageSliderIndex}
 							 setIndex={newIndex => setImageSliderIndex(newIndex)}
-							 close={() => setImageSliderOpen(false)}/>
+							 handleClose={() => setImageSliderOpen(false)}/>
 			)}
 		</React.Fragment>
 	);
