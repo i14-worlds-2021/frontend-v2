@@ -1,6 +1,10 @@
 
-.FullPageMessage {
+#root {
     z-index: 200;
+    background-color: white;
+}
+
+.FullPageMessage {
     color: white;
     font-family: "Roboto", sans-serif;
     font-size: 20px;
@@ -13,16 +17,15 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    z-index: 100;
+    z-index: -1000;
     top: 0;
-    right: 0;
     left: 0;
-    bottom: 0;
     background-color: hsl(229, 25%, 18%);
 }
 
-.FullPageMessage, .FullPageLoader img {
+.FullPageLoader img {
     animation: 1.5s ease-in-out infinite OpacityLoader;
+    z-index: 100;
 }
 
 @keyframes OpacityLoader {
