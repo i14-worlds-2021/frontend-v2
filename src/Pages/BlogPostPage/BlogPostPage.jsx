@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 // noinspection ES6CheckImport
 import {withRouter} from "react-router-dom";
+import BlogPost from "./BlogPost";
+import './BlogPostPage.scss';
 
 const useStyles = makeStyles(theme => ({
     headline: {
@@ -40,7 +42,7 @@ function BlogPostPageComponent (props) {
                         "404"
                     )}
                     {(reducedArticles.length > 0) && (
-                        "article"
+                        <BlogPost blogPost={reducedArticles[0]}/>
                     )}
                 </React.Fragment>
             )}

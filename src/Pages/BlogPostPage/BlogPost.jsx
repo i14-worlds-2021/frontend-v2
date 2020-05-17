@@ -1,5 +1,5 @@
 /* General Imports --------------------------------------------------------------- */
-import React from "react";
+import React, {useState} from "react";
 import {animateScroll as scroll} from "react-scroll";
 
 
@@ -13,15 +13,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
-
 import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
 
 
 /* Hook Linking Imports --------------------------------------------------------------- */
-import withStyles from "@material-ui/styles/withStyles/withStyles";
-// noinspection ES6CheckImport
-import {withRouter} from "react-router-dom";
-import ImageSlider from "../../ImageSlider/ImageSlider";
+import ImageSlider from "../../Components/ImageSlider/ImageSlider";
 import clsx from "clsx";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -98,149 +94,86 @@ const useStyles = makeStyles(theme => ({
 /* Component --------------------------------------------------------------------- */
 
 
-class Article extends React.Component {
+function BlogPost(props) {
 
-	constructor(props) {
-		super(props);
+	let [imageSliderOpen, setImageSliderOpen] = useState(false);
+	let [imageSliderIndex, setImageSliderIndex] = useState(0);
 
-		this.state = {
-			imageSliderOpen: false,
-			imageSliderIndex: 0
-		};
+	const classes = useStyles();
 
-		this.articleId = this.props.match.params.articleId;
-		this.getArticleContent = this.getArticleContent.bind(this);
-
-		this.openImageSlider = this.openImageSlider.bind(this);
-		this.closeImageSlider = this.closeImageSlider.bind(this);
-		this.newImageSliderIndex = this.newImageSliderIndex.bind(this);
-	}
-
-	openImageSlider() {
-		this.props.hideWebsite(true);
-		this.setState({
-			imageSliderOpen: true
-		});
-	}
-
-	closeImageSlider() {
-		this.props.hideWebsite(false);
-		this.setState({
-			imageSliderOpen: false,
-		});
-	}
-
-	newImageSliderIndex(newIndex) {
-		this.setState({
-			imageSliderIndex: newIndex,
-		});
-	}
-
-	getArticleContent(article) {
-		const {classes} = this.props;
-
-		for (let stringToReplace in contentReplacements) {
-			article.content_html = article.content_html.replace(stringToReplace, contentReplacements[stringToReplace]);
+	function handleLeftClick() {
+		let newIndex = imageSliderIndex - 1;
+		if (newIndex < 0) {
+			newIndex += props.blogPost.images.length;
 		}
+		setImageSliderIndex(newIndex);
+	}
 
-		let headline = article.headline;
-		if (headline.length === 0) {
-			headline = "No Title"
-		}
+	function handleRightClick() {
+		let newIndex = (imageSliderIndex + 1) % props.blogPost.images.length;
+		setImageSliderIndex(newIndex);
+	}
 
-		return (
-
-			<div className="ArticleView">
-				<Container maxWidth="md" className={classes.relativeContainer}>
-					<Link to="/news-feed"
-					      className={classes.relativeContainer}
-					      onClick={() => scroll.scrollToTop({duration: 300})}>
-						<ArrowBackIosTwoToneIcon className={classes.backIcon} color="secondary"/>
-					</Link>
-					<Typography variant="h4" className={classes.headline}>{headline}</Typography>
-					<Card elevation={3}
-					      className={classes.card}>
-						<CardMedia
-							className={classes.cardMedia}
-							image={article.images[this.state.imageSliderIndex]["filepath_large"]}
-							alt={article.images[this.state.imageSliderIndex]["description"]}
-							onClick={this.openImageSlider}
-						/>
-						{article.images.length > 1 && (
-							<React.Fragment>
-								<IconButton
-									aria-label="previous image"
-									className={clsx(classes.icon, classes.prevIcon)}
-									size="medium"
-									onClick={() => {
-										let newIndex = this.state.imageSliderIndex - 1;
-										if (newIndex < 0) {
-											newIndex += article.images.length;
-										}
-										this.setState({loading: true});
-										this.newImageSliderIndex(newIndex);
-									}}>
-									<ChevronLeftIcon/>
-								</IconButton>
-								<IconButton
-									aria-label="next image"
-									className={clsx(classes.icon, classes.nextIcon)}
-									size="medium"
-									onClick={() => {
-										let newIndex = (this.state.imageSliderIndex + 1) % article.images.length;
-										this.setState({loading: true});
-										this.newImageSliderIndex(newIndex);
-									}}>
-									<ChevronRightIcon/>
-								</IconButton>
-							</React.Fragment>
-						)}
-					</Card>
-					<div className={classes.articleContent + " ArticleContent"}
-					     dangerouslySetInnerHTML={{__html: article.content_html}}/>
-					<div className={classes.articleCredit}>
-						<Typography variant="subtitle2"
-						            className={classes.articleCredit}>By {article.author}</Typography>
-					</div>
-				</Container>
+	let blogPostContent = (
+		<div className="ArticleView">
+			<Link to="/news-feed"
+				  className={classes.relativeContainer}
+				  onClick={() => scroll.scrollToTop({duration: 300})}>
+				<ArrowBackIosTwoToneIcon className={classes.backIcon} color="secondary"/>
+			</Link>
+			<Typography variant="h4" className={classes.headline}>{props.blogPost.title}</Typography>
+			<Container maxWidth="sm">
+				<Card elevation={3}
+					  className={classes.card}>
+					<CardMedia
+						className={classes.cardMedia}
+						image={props.blogPost.images[imageSliderIndex].image.formats.large.url}
+						alt={""}
+						onClick={() => setImageSliderOpen(true)}
+					/>
+					{props.blogPost.images.length > 1 && (
+						<React.Fragment>
+							<IconButton
+								className={clsx(classes.icon, classes.prevIcon)}
+								size="medium"
+								onClick={handleLeftClick}>
+								<ChevronLeftIcon/>
+							</IconButton>
+							<IconButton
+								className={clsx(classes.icon, classes.nextIcon)}
+								size="medium"
+								onClick={handleRightClick}>
+								<ChevronRightIcon/>
+							</IconButton>
+						</React.Fragment>
+					)}
+				</Card>
+			</Container>
+			<div className={classes.articleContent + " ArticleContent"}
+				 dangerouslySetInnerHTML={{__html: props.blogPost.text}}/>
+			<div className={classes.articleCredit}>
+				<Typography variant="subtitle2"
+							className={classes.articleCredit}>By {props.blogPost.author}</Typography>
 			</div>
+		</div>
 
-		);
-	}
+	);
 
-	render() {
-
-		const {classes} = this.props;
-		const article = this.props.getArticleFromId(this.articleId);
-
-		let articleContent;
-
-		if (article === undefined) {
-			articleContent = <Typography variant="h4" className={classes.headline}>Nothing here ...</Typography>;
-		} else {
-			articleContent = this.getArticleContent(article);
-		}
-
-		return (
-			<React.Fragment>
-				{!this.state.imageSliderOpen && (
-					<div className="NewsFeedPage">
-						{articleContent}
-					</div>
-				)}
-				{this.state.imageSliderOpen && (
-					<ImageSlider images={article["images"]}
-					             imageSliderIndex={this.state.imageSliderIndex}
-					             closeImageSlider={this.closeImageSlider}
-					             newImageSliderIndex={newIndex => this.newImageSliderIndex(newIndex)}/>
-				)}
-			</React.Fragment>
-		);
-	}
+	return (
+		<React.Fragment>
+			{!imageSliderOpen && (
+				<div className="NewsFeedPage">
+					{blogPostContent}
+				</div>
+			)}
+			{imageSliderOpen && (
+				<ImageSlider images={props.blogPost.images}
+							 index={imageSliderIndex}
+							 setIndex={newIndex => setImageSliderIndex(newIndex)}
+							 close={() => setImageSliderOpen(false)}/>
+			)}
+		</React.Fragment>
+	);
 }
 
-Article.propTypes = {
-	classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(withRouter(Article));
+export default BlogPost;
