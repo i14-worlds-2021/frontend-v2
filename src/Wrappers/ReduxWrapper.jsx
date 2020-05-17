@@ -6,17 +6,24 @@ import {Provider} from "react-redux";
 import axios from "axios";
 import {CMS_URL} from "../constants";
 
-let initialObject = {
+let initialResourceObject = {
     loading: true,
     data: [],
 }
 
+let initialSliderObject = {
+    open: false,
+    images: [],
+    index: 0
+}
+
 function storeReducer(state = {
-    articles: initialObject,
-    albums: initialObject,
-    scheduleDays: initialObject,
-    contacts: initialObject,
-    countryHosts: initialObject
+    articles: initialResourceObject,
+    albums: initialResourceObject,
+    scheduleDays: initialResourceObject,
+    contacts: initialResourceObject,
+    countryHosts: initialResourceObject,
+    imageSlider: initialSliderObject
 }, action) {
 
     let newState = {
@@ -25,6 +32,7 @@ function storeReducer(state = {
         scheduleDays: state.scheduleDays,
         contacts: state.contacts,
         countryHosts: state.countryHosts,
+        imageSlider: state.imageSlider
     }
 
     let updateObject = {
@@ -51,6 +59,26 @@ function storeReducer(state = {
 
         case "SET_COUNTRY_HOSTS":
             newState.countryHosts = updateObject;
+            break;
+
+        case "OPEN_IMAGE_SLIDER":
+            newState.imageSlider = {
+                open: true,
+                images: action.images,
+                index: action.index
+            };
+            break;
+
+        case "SET_IMAGE_SLIDER_INDEX":
+            newState.imageSlider = {
+                open: true,
+                images: newState.imageSlider.images,
+                index: action.index
+            };
+            break;
+
+        case "CLOSE_IMAGE_SLIDER":
+            newState.imageSlider.open = false;
             break;
 
         default:

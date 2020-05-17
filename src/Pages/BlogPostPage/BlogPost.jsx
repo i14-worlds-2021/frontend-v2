@@ -17,12 +17,13 @@ import ArrowBackIosTwoToneIcon from '@material-ui/icons/ArrowBackIosTwoTone';
 
 
 /* Hook Linking Imports --------------------------------------------------------------- */
-import ImageSlider from "../../Components/ImageSlider/ImageSlider";
 import clsx from "clsx";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import {makeStyles} from "@material-ui/core/styles";
 
+import {openImageSlider, setImageSliderIndex} from '../../Wrappers/ReduxActions';
+import {connect} from "react-redux";
 
 /* Data -------------------------------------------------------------------------- */
 
@@ -94,25 +95,24 @@ const useStyles = makeStyles(theme => ({
 /* Component --------------------------------------------------------------------- */
 
 
-function BlogPost(props) {
-
-	let [imageSliderOpen, setImageSliderOpen] = useState(false);
-	let [imageSliderIndex, setImageSliderIndex] = useState(0);
+function BlogPostComponent(props) {
 
 	const classes = useStyles();
 
 	function handleLeftClick() {
-		let newIndex = imageSliderIndex - 1;
+		let newIndex = props.imageSlider.index - 1;
 		if (newIndex < 0) {
 			newIndex += props.blogPost.images.length;
 		}
-		setImageSliderIndex(newIndex);
+		props.setImageSliderIndex(newIndex);
 	}
 
 	function handleRightClick() {
-		let newIndex = (imageSliderIndex + 1) % props.blogPost.images.length;
-		setImageSliderIndex(newIndex);
+		let newIndex = (props.imageSlider.index + 1) % props.blogPost.images.length;
+		props.setImageSliderIndex(newIndex);
 	}
+
+	const imageURL = props.blogPost.images[props.imageSlider.index].image.formats.large.url;
 
 	let blogPostContent = (
 		<div className="ArticleView">
@@ -127,9 +127,9 @@ function BlogPost(props) {
 					  className={classes.card}>
 					<CardMedia
 						className={classes.cardMedia}
-						image={props.blogPost.images[imageSliderIndex].image.formats.large.url}
+						image={imageURL}
 						alt={""}
-						onClick={() => setImageSliderOpen(true)}
+						onClick={() => props.openImageSlider(props.blogPost.images, props.imageSlider.index)}
 					/>
 					{props.blogPost.images.length > 1 && (
 						<React.Fragment>
@@ -161,19 +161,20 @@ function BlogPost(props) {
 
 	return (
 		<React.Fragment>
-			{!imageSliderOpen && (
-				<div className="NewsFeedPage">
-					{blogPostContent}
-				</div>
-			)}
-			{imageSliderOpen && (
-				<ImageSlider images={props.blogPost.images}
-							 index={imageSliderIndex}
-							 setIndex={newIndex => setImageSliderIndex(newIndex)}
-							 handleClose={() => setImageSliderOpen(false)}/>
-			)}
+			<div className="NewsFeedPage">
+				{blogPostContent}
+			</div>
 		</React.Fragment>
 	);
 }
 
-export default BlogPost;
+const mapStateToProps = state => ({
+	imageSlider: state.imageSlider
+});
+
+const mapDispatchToProps = dispatch => ({
+	openImageSlider: (images, index) => dispatch(openImageSlider(images, index)),
+	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogPostComponent);
