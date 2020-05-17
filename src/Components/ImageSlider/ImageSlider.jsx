@@ -1,9 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './ImageSlider.scss';
-import PropTypes from "prop-types";
-import withStyles from "@material-ui/styles/withStyles/withStyles";
-// noinspection ES6CheckImport
-import {withRouter} from "react-router-dom";
 
 import Card from '@material-ui/core/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -14,8 +10,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import clsx from 'clsx';
+import {makeStyles} from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
 	imageSlider: {
 		backgroundColor: theme.palette.primary.main,
 	},
@@ -46,106 +43,82 @@ const styles = theme => ({
 		right: theme.spacing(2),
 		bottom: theme.spacing(2),
 	},
-});
+}))
 
-class ImageSlider extends React.Component {
-	constructor(props) {
-		super(props);
+function ImageSlider (props) {
 
-		this.state = {
-			loading: true,
-			shrinkImage: false,
-		};
+	const classes = useStyles();
 
-		this.cardRef = React.createRef();
-		this.buttonRef = React.createRef();
+	let [loading, setLoading] = useState(true);
 
-		document.addEventListener("keydown", event => {
-			if (event.key === "Escape") {
-				this.props.closeImageSlider();
-			} else if (this.props.images.length > 1) {
-				if (event.key === "ArrowLeft") {
-					this.handleLeftClick();
-				} else if (event.key === "ArrowRight") {
-					this.handleRightClick();
-				}
+	document.addEventListener("keydown", event => {
+		if (event.key === "Escape") {
+			props.close();
+		} else if (props.images.length > 1) {
+			if (event.key === "ArrowLeft") {
+				handleLeftClick();
+			} else if (event.key === "ArrowRight") {
+				handleRightClick();
 			}
-		});
-
-		this.handleLeftClick = this.handleLeftClick.bind(this);
-		this.handleRightClick = this.handleRightClick.bind(this);
-
-		// this.triggerResize = this.triggerResize.bind(this);
-	}
-
-	handleLeftClick() {
-		let newIndex = this.props.imageSliderIndex - 1;
-		if (newIndex < 0) {
-			newIndex += this.props.images.length;
 		}
-		this.setState({loading: true});
-		this.props.newImageSliderIndex(newIndex);
+	});
+
+	function handleLeftClick() {
+		let newIndex = props.imageSliderIndex - 1;
+		if (newIndex < 0) {
+			newIndex += props.images.length;
+		}
+		setLoading(true);
+		props.setIndex(newIndex);
 	}
 
-	handleRightClick() {
-		let newIndex = (this.props.imageSliderIndex + 1) % this.props.images.length;
-		this.setState({loading: true});
-		this.props.newImageSliderIndex(newIndex);
+	function handleRightClick() {
+		let newIndex = (props.imageSliderIndex + 1) % props.images.length;
+		setLoading(true);
+		props.setIndex(newIndex);
 	}
 
-	render() {
-
-		const {classes} = this.props;
-
-		return (
-			<div className={clsx(classes.imageSlider, "ImageSlider")}>
-				<div className="Image">
-					<CircularProgress color="secondary"
-					                  style={{display: this.state.loading ? "block" : "none"}}/>
-					<Card ref={this.cardRef}
-					      className={classes.card}
-					      elevation={3}
-					      style={{display: this.state.loading ? "none" : "block"}}>
-						<img className={classes.img}
-						     src={this.props.images[this.props.imageSliderIndex].filepath_full}
-						     alt={this.props.images[this.props.imageSliderIndex].description}
-						     onLoad={() => this.setState({loading: false})}
-						/>
-					</Card>
-				</div>
-				<IconButton ref={this.buttonRef}
-				            aria-label="close image slider"
-				            className={clsx(classes.icon, classes.closeIcon)}
-				            size="medium"
-				            onClick={this.props.closeImageSlider}>
-					<CloseIcon/>
-				</IconButton>
-				{(this.props.images.length > 1) && (
-					<React.Fragment>
-						<IconButton
-							aria-label="previous image"
-							className={clsx(classes.icon, classes.prevIcon)}
-							size="medium"
-							onClick={this.handleLeftClick}>
-							<ChevronLeftIcon/>
-						</IconButton>
-						<IconButton
-							aria-label="next image"
-							className={clsx(classes.icon, classes.nextIcon)}
-							size="medium"
-							onClick={this.handleRightClick}>
-							<ChevronRightIcon/>
-						</IconButton>
-					</React.Fragment>
-				)}
+	return (
+		<div className={clsx(classes.imageSlider, "ImageSlider")}>
+			<div className="Image">
+				<CircularProgress color="secondary"
+								  style={{display: loading ? "block" : "none"}}/>
+				<Card className={classes.card}
+					  elevation={3}
+					  style={{display: this.state.loading ? "none" : "block"}}>
+					<img className={classes.img}
+						 src={"https://wallpaperaccess.com/full/25637.jpg"}
+						 alt={"identifier"}
+						 onLoad={() => setLoading(false)}
+					/>
+				</Card>
 			</div>
-		);
-	}
+			<IconButton
+				className={clsx(classes.icon, classes.closeIcon)}
+				size="medium"
+				onClick={this.props.closeImageSlider}>
+				<CloseIcon/>
+			</IconButton>
+			{(props.images.length > 1) && (
+				<React.Fragment>
+					<IconButton
+						className={clsx(classes.icon, classes.prevIcon)}
+						size="medium"
+						onClick={handleLeftClick}>
+						<ChevronLeftIcon/>
+					</IconButton>
+					<IconButton
+						className={clsx(classes.icon, classes.nextIcon)}
+						size="medium"
+						onClick={handleRightClick}>
+						<ChevronRightIcon/>
+					</IconButton>
+				</React.Fragment>
+			)}
+		</div>
+	);
+
 
 }
 
-ImageSlider.propTypes = {
-	classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(withRouter(ImageSlider));
+export default ImageSlider;
