@@ -1,7 +1,8 @@
 /* General Imports --------------------------------------------------------------- */
 import React, {useState} from "react";
 import {animateScroll as scroll} from "react-scroll";
-
+import snarkdown from 'snarkdown';
+import marked from 'marked';
 
 /* Routing Imports --------------------------------------------------------------- */
 import {Link} from 'react-router-dom';
@@ -28,18 +29,18 @@ import {connect} from "react-redux";
 /* Data -------------------------------------------------------------------------- */
 
 
-const contentReplacements = {
-	"<h6>": "<h6 class='MuiTypography-root MuiTypography-h6'>",
-	"<h5>": "<h5 class='MuiTypography-root MuiTypography-h5'>",
-	"<h4>": "<h4 class='MuiTypography-root MuiTypography-h4'>",
-	"<h3>": "<h3 class='MuiTypography-root MuiTypography-h3'>",
-	"<h2>": "<h2 class='MuiTypography-root MuiTypography-h2'>",
-	"<h1>": "<h1 class='MuiTypography-root MuiTypography-h1'>",
-	"<p>": "<p class='MuiTypography-root MuiTypography-body1'>",
-	"<a href=": "<strong><a href=",
-	"<a target=": "<strong><a target=",
-	"</a>": "</a></strong>",
-};
+const contentReplacements = [
+	["<h6", "<h6 class='MuiTypography-root MuiTypography-h6'"],
+	["<h5", "<h5 class='MuiTypography-root MuiTypography-h5'"],
+	["<h4", "<h4 class='MuiTypography-root MuiTypography-h4'"],
+	["<h3", "<h3 class='MuiTypography-root MuiTypography-h3'"],
+	["<h2", "<h2 class='MuiTypography-root MuiTypography-h2'"],
+	["<h1", "<h1 class='MuiTypography-root MuiTypography-h1'"],
+	["<p", "<p class='MuiTypography-root MuiTypography-body1'"],
+	["<a href=", "<strong><a href="],
+	["<a target=", "<strong><a target="],
+	["</a>", "</a></strong>"],
+];
 
 
 /* Styles ------------------------------------------------------------------------ */
@@ -84,7 +85,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	articleContent: {
 		marginTop: theme.spacing(4),
-		marginBottom: theme.spacing(8),
+		marginBottom: theme.spacing(4),
+		"& p,& h1,& h2,& h3,& h4,& h5,& h6": {
+			marginBottom: theme.spacing(3)
+		}
 	},
 	articleCredit: {
 		textAlign: "center"
@@ -113,6 +117,16 @@ function BlogPostComponent(props) {
 	}
 
 	const imageURL = props.blogPost.images[props.imageSlider.index].image.formats.large.url;
+	let htmlContent = marked(props.blogPost.text);
+
+	console.log({htmlContent});
+
+	contentReplacements.forEach(replacement => {
+		const searchRegExp = new RegExp(replacement[0], 'g'); // Throws SyntaxError
+		htmlContent = htmlContent.replace(searchRegExp, replacement[1]);
+	});
+
+	console.log({new: htmlContent});
 
 	let blogPostContent = (
 		<div className="ArticleView">
@@ -148,13 +162,13 @@ function BlogPostComponent(props) {
 						</React.Fragment>
 					)}
 				</Card>
+				<div className={classes.articleContent + " ArticleContent"}
+					 dangerouslySetInnerHTML={{__html: htmlContent}}/>
+				<div className={classes.articleCredit}>
+					<Typography variant="subtitle2"
+								className={classes.articleCredit}>By {props.blogPost.author}</Typography>
+				</div>
 			</Container>
-			<div className={classes.articleContent + " ArticleContent"}
-				 dangerouslySetInnerHTML={{__html: props.blogPost.text}}/>
-			<div className={classes.articleCredit}>
-				<Typography variant="subtitle2"
-							className={classes.articleCredit}>By {props.blogPost.author}</Typography>
-			</div>
 		</div>
 
 	);
