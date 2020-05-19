@@ -122,7 +122,7 @@ function GalleryPageComponent (props) {
                         <Typography variant="subtitle1" style={{textAlign: "center"}}>No posts yet ...</Typography>
                     )}
                     {(props.albums.data.filter(article => article.visible).length > 0) && (
-                        <Grid container spacing={2} justify="center">
+                        <Grid container spacing={2}>
                             {props.albums.data.filter(album => album.visible).map((album, index) => (
                                 <AlbumPreview album={album} key={index}/>
                             ))}

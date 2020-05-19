@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 // noinspection ES6CheckImport
 import {withRouter} from "react-router-dom";
+import Album from "./Album";
 
 
 const useStyles = makeStyles(theme => ({
@@ -39,7 +40,7 @@ function AlbumPageComponent (props) {
                         "404"
                     )}
                     {(reducedArticles.length > 0) && (
-                        "album"
+                        <Album album={reducedArticles[0]}/>
                     )}
                 </React.Fragment>
             )}
