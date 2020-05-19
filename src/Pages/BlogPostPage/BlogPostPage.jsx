@@ -1,8 +1,6 @@
 
 import React from 'react';
-import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Grid from "@material-ui/core/Grid";
 import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 // noinspection ES6CheckImport
@@ -27,7 +25,7 @@ function BlogPostPageComponent (props) {
 
     const blogPostIdentifier = props.match.params.identifier;
     const reducedArticles = props.articles.data.filter(article => (
-        article.identifier === blogPostIdentifier && article.visible
+        (article.identifier === blogPostIdentifier) && article.visible
     ));
 
     return (
