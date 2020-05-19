@@ -75,6 +75,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+// noinspection DuplicatedCode
 function ArticlePreview (props) {
 
     const classes = useStyles();
@@ -83,7 +84,9 @@ function ArticlePreview (props) {
     let imageSrcDesktop = "";
 
     if (props.blogPost.images.length === 0) {
-        imageSrcMobile = imageSrcDesktop = "https://wallpaperaccess.com/full/25637.jpg";
+        // TODO: Add proper placeholder image
+        imageSrcMobile = "https://wallpaperaccess.com/full/25637.jpg";
+        imageSrcDesktop = "https://wallpaperaccess.com/full/25637.jpg";
     } else {
         imageSrcMobile = props.blogPost.images[0].image.formats.medium.url;
         imageSrcDesktop = props.blogPost.images[0].image.formats.small.url;
