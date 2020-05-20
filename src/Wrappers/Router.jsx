@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 /* Routing Imports --------------------------------------------------------------- */
 // noinspection ES6CheckImport
-import {Switch, Route, BrowserRouter, withRouter} from 'react-router-dom';
+import {Switch, Route, BrowserRouter} from 'react-router-dom';
 
 
 /* Component Imports ------------------------------------------------------------- */
@@ -59,21 +59,31 @@ const Content = (props) => {
             <Breakpoint small down>
                 <div className={classes.contentContainer}>
                     <div className={classes.toolbar}/>
-                    <div className={classes.contentMobile}>
-                        <Container maxWidth="md">
-                            {props.children}
-                        </Container>
-                    </div>
+                    {props.fullWidthContent && (
+                        props.children
+                    )}
+                    {!props.fullWidthContent && (
+                        <div className={classes.contentMobile}>
+                            <Container maxWidth="md">
+                                {props.children}
+                            </Container>
+                        </div>
+                    )}
                 </div>
             </Breakpoint>
             <Breakpoint medium up>
                 <div className={classes.contentContainer}>
                     <div className={classes.toolbar}/>
-                    <div className={classes.content}>
-                        <Container maxWidth="md">
-                            {props.children}
-                        </Container>
-                    </div>
+                    {props.fullWidthContent && (
+                        props.children
+                    )}
+                    {!props.fullWidthContent && (
+                        <div className={classes.content}>
+                            <Container maxWidth="md">
+                                {props.children}
+                            </Container>
+                        </div>
+                    )}
                 </div>
             </Breakpoint>
             <Footer/>
@@ -97,9 +107,9 @@ const RouterComponent = (props) => {
                         </Route>
 
                         <Route exact strict path="/event">
-                            <NavBar/>
-                            <EventPage/>
-                            <Footer/>
+                            <Content fullWidthContent>
+                                <EventPage/>
+                            </Content>
                         </Route>
 
                         <Route exact strict path="/news-feed">
