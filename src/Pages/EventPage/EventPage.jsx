@@ -3,9 +3,7 @@ import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import Section1Logo from "./Section1Logo";
 import Section2Slider from "./Section2Slider/Section2Slider";
-import Section3Map from "./Section3Map";
 
 const useStyles = makeStyles(theme => ({
     fullWidthSection: {
@@ -39,7 +37,7 @@ function EventPage (props) {
                 Logo
             </FullWidthSection>
             <FullWidthSection color={"rgb(200, 200, 50)"}>
-                Slider
+                <Section2Slider/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(200, 200, 200)"}>
                 Image 1: Lazy loading image! -> pixeled out :D (incl. optional copyright overlay)
