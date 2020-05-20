@@ -9,6 +9,10 @@ function PixelImagePreview(props) {
 
     let [loaded, setLoaded] = useState(false);
 
+    // TODO: Accept an exact aspect ratio of the image to be
+    //  loaded and choose a pixel preview of that aspect ratio
+    //  if no preview image is provided
+
     return (
         <React.Fragment>
             <img alt={"alt" in props ? props.alt : "-"}
