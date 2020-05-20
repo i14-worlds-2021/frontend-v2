@@ -18,6 +18,7 @@ let initialSliderObject = {
 }
 
 function storeReducer(state = {
+    invitationSlider: initialResourceObject,
     articles: initialResourceObject,
     albums: initialResourceObject,
     scheduleDays: initialResourceObject,
@@ -27,6 +28,7 @@ function storeReducer(state = {
 }, action) {
 
     let newState = {
+        invitationSlider: state.invitationSlider,
         articles: state.articles,
         albums: state.albums,
         scheduleDays: state.scheduleDays,
@@ -41,6 +43,10 @@ function storeReducer(state = {
     };
 
     switch (action.type) {
+        case "SET_INVITATION_SLIDER":
+            newState.invitationSlider = updateObject;
+            break;
+
         case "SET_ARTICLES":
             newState.articles = updateObject;
             break;
@@ -97,6 +103,7 @@ let store = createStore(storeReducer);
 
 
 const resources = [
+    {url: "invitation-slider", reduxAction: "SET_INVITATION_SLIDER"},
     {url: "blog-posts", reduxAction: "SET_ARTICLES"},
     {url: "albums", reduxAction: "SET_ALBUMS"},
     {url: "schedule-days", reduxAction: "SET_SCHEDULE_DAYS"},
