@@ -1,4 +1,5 @@
 
+/* Pixel style instead of interpolated and just plain lowres */
 .pixelImagePreview {
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */
