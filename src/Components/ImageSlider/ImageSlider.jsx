@@ -13,19 +13,11 @@ import clsx from 'clsx';
 import {makeStyles} from "@material-ui/core/styles";
 import {connect} from "react-redux";
 import {setImageSliderIndex, closeImageSlider} from "../../Wrappers/ReduxActions";
+import PixelImagePreview from "../PixelImagePreview/PixelImagePreview";
 
 const useStyles = makeStyles(theme => ({
 	imageSlider: {
 		backgroundColor: theme.palette.primary.main,
-	},
-	card: {
-		margin: theme.spacing(2),
-		maxWidth: `calc(100vw - ${theme.spacing(4)}px)`,
-		maxHeight: `calc(100vh - ${theme.spacing(4)}px)`,
-	},
-	img: {
-		maxWidth: `calc(100vw - ${theme.spacing(4)}px)`,
-		maxHeight: `calc(100vh - ${theme.spacing(4)}px)`,
 	},
 	icon: {
 		backgroundColor: theme.palette.primary.main,
@@ -51,8 +43,6 @@ function ImageSliderComponent (props) {
 
 	const classes = useStyles();
 
-	let [loading, setLoading] = useState(true);
-
 	document.addEventListener("keydown", event => {
 		if (event.key === "Escape") {
 			props.closeImageSlider();
@@ -70,31 +60,24 @@ function ImageSliderComponent (props) {
 		if (newIndex < 0) {
 			newIndex += props.imageSlider.images.length;
 		}
-		setLoading(true);
 		props.setImageSliderIndex(newIndex);
 	}
 
 	function handleRightClick() {
 		let newIndex = (props.imageSlider.index + 1) % props.imageSlider.images.length;
-		setLoading(true);
 		props.setImageSliderIndex(newIndex);
 	}
 
 	const imageURL = props.imageSlider.images[props.imageSlider.index].image.url;
+	const identifier = props.imageSlider.images[props.imageSlider.index].identifier;
 
 	return (
 		<div className={clsx(classes.imageSlider, "ImageSlider")}>
-			<div className="Image">
-				<CircularProgress style={{color: "white", display: loading ? "block" : "none"}}/>
-				<Card className={classes.card}
-					  elevation={3}
-					  style={{display: loading ? "none" : "block"}}>
-					<img className={classes.img}
-						 src={imageURL}
-						 alt={"identifier"}
-						 onLoad={() => setLoading(false)}
-					/>
-				</Card>
+			<div className="ImageContainer">
+				<PixelImagePreview
+					src={imageURL}
+					alt={identifier}
+					previewAppendix="-pixel-preview"/>
 			</div>
 			<IconButton
 				className={clsx(classes.icon, classes.closeIcon)}
