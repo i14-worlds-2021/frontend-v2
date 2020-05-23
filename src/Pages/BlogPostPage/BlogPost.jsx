@@ -142,7 +142,7 @@ function BlogPostComponent(props) {
 						className={classes.cardMedia}
 						image={imageURL}
 						alt={""}
-						onClick={() => props.openImageSlider(props.blogPost.images, props.imageSlider.index)}
+						onClick={() => props.openImageSlider(props.blogPost.images, props.imageSlider.index, false)}
 					/>
 					{props.blogPost.images.length > 1 && (
 						<React.Fragment>
@@ -186,7 +186,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	openImageSlider: (images, index) => dispatch(openImageSlider(images, index)),
+	openImageSlider: (images, index, noDelay) => dispatch(openImageSlider(images, index, noDelay)),
 	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
 });
 

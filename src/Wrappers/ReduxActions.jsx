@@ -1,8 +1,9 @@
 
-export const openImageSlider = (images, index) => ({
+export const openImageSlider = (images, index, noDelay) => ({
     type: "OPEN_IMAGE_SLIDER",
     images: images,
-    index: index
+    index: index,
+    noDelay: noDelay
 })
 
 export const setImageSliderIndex = (index) => ({

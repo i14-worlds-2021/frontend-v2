@@ -77,7 +77,7 @@ function AlbumComponent(props) {
 
 	let imageList = props.album.images.map((image, index) => (
 		<Image image={image} index={index} key={index}
-			   openImageSlider={() => props.openImageSlider(props.album.images, index)}/>
+			   openImageSlider={() => props.openImageSlider(props.album.images, index, false)}/>
 	));
 
 	return (
@@ -101,7 +101,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	openImageSlider: (images, index) => dispatch(openImageSlider(images, index))
+	openImageSlider: (images, index, noDelay) => dispatch(openImageSlider(images, index, noDelay))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumComponent);

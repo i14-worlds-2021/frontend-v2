@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import './ImageSlider.scss';
 
 import Card from '@material-ui/core/Card';
@@ -43,7 +43,7 @@ function ImageSliderComponent (props) {
 
 	const classes = useStyles();
 
-	document.addEventListener("keydown", event => {
+	function handleKeydown (event) {
 		if (event.key === "Escape") {
 			props.closeImageSlider();
 		} else if (props.imageSlider.images.length > 1) {
@@ -53,7 +53,17 @@ function ImageSliderComponent (props) {
 				handleRightClick();
 			}
 		}
-	});
+	}
+
+	document.addEventListener("keydown", handleKeydown);
+
+	// When useEffect returns a function this function will
+	// be treated as the "componentWillUnmount" function
+	useEffect(() => {
+		return () => {
+			document.removeEventListener("keydown", handleKeydown);
+		}
+	})
 
 	function handleLeftClick() {
 		let newIndex = props.imageSlider.index - 1;
@@ -68,16 +78,33 @@ function ImageSliderComponent (props) {
 		props.setImageSliderIndex(newIndex);
 	}
 
-	const imageURL = props.imageSlider.images[props.imageSlider.index].image.url;
-	const identifier = props.imageSlider.images[props.imageSlider.index].identifier;
+	let media;
+
+	if (props.imageSlider.images[props.imageSlider.index].image.mime.startsWith("video")) {
+		media = (
+			<video controls>
+				<source
+					style={{zIndex: "200"}}
+					src={props.imageSlider.images[props.imageSlider.index].image.url}
+					type={props.imageSlider.images[props.imageSlider.index].image.mime}/>
+			</video>
+		);
+	} else {
+		console.log({noDelay: props.imageSlider.noDelay})
+		media = (
+			<PixelImagePreview
+				src={props.imageSlider.images[props.imageSlider.index].image.url}
+				previewAppendix="-pixel-preview"
+				alt={props.imageSlider.images[props.imageSlider.index].identifier}
+				noDelay={props.imageSlider.noDelay}
+			/>
+		);
+	}
 
 	return (
 		<div className={clsx(classes.imageSlider, "ImageSlider")}>
 			<div className="ImageContainer">
-				<PixelImagePreview
-					src={imageURL}
-					alt={identifier}
-					previewAppendix="-pixel-preview"/>
+				{media}
 			</div>
 			<IconButton
 				className={clsx(classes.icon, classes.closeIcon)}

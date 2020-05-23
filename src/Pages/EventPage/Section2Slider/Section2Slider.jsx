@@ -123,7 +123,7 @@ function Section2SliderComponent(props) {
 			media = (
 				<div
 					className={classes.card_media}
-					onClick={() => props.openImageSlider(props.invitationSlides.data["slides"], props.imageSlider.index)}
+					onClick={() => props.openImageSlider(props.invitationSlides.data["slides"], props.imageSlider.index, true)}
 				>
 					<PixelImagePreview
 						src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
@@ -182,7 +182,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	openImageSlider: (images, index) => dispatch(openImageSlider(images, index)),
+	openImageSlider: (images, index, noDelay) => dispatch(openImageSlider(images, index, noDelay)),
 	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
 });
 

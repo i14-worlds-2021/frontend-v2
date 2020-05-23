@@ -31,10 +31,14 @@ class PixelImagePreview extends React.Component {
             pendingUpdate: undefined,
         }
 
+        this.delay = ("noDelay" in props ? (props["noDelay"] ? 0 : MOUNTING_DELAY) : MOUNTING_DELAY);
+
+        console.log({delay: this.delay});
+
         this.state.pendingUpdate = setTimeout(() => {
             console.log("initial mounting");
             this.setState({mounted: true, src: src});
-        }, MOUNTING_DELAY);
+        }, this.delay);
     }
 
     componentDidUpdate(prevProps, prevState, SS) {
@@ -62,7 +66,7 @@ class PixelImagePreview extends React.Component {
                 let pendingUpdate = setTimeout(() => {
                     console.log("re-mounting");
                     this.setState({alt: newAlt, src: newSrc, mounted: true});
-                }, MOUNTING_DELAY);
+                }, this.delay);
 
                 // Update state to new PixelPreview
                 this.setState({mounted: false, loaded: false, previewSrc: newPreviewSrc,

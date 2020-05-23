@@ -14,7 +14,8 @@ let initialResourceObject = {
 let initialSliderObject = {
     open: false,
     images: [],
-    index: 0
+    index: 0,
+    noDelay: false,
 }
 
 function storeReducer(state = {
@@ -71,7 +72,8 @@ function storeReducer(state = {
             newState.imageSlider = {
                 open: true,
                 images: action.images,
-                index: action.index
+                index: action.index,
+                noDelay: action.noDelay
             };
             break;
 
@@ -79,7 +81,8 @@ function storeReducer(state = {
             newState.imageSlider = {
                 open: newState.imageSlider.open,
                 images: newState.imageSlider.images,
-                index: action.index
+                index: action.index,
+                noDelay: newState.imageSlider.noDelay
             };
             break;
 
@@ -87,7 +90,8 @@ function storeReducer(state = {
             newState.imageSlider = {
                 open: false,
                 images: newState.imageSlider.images,
-                index: newState.imageSlider.index
+                index: newState.imageSlider.index,
+                noDelay: newState.imageSlider.noDelay
             };
             break;
 
