@@ -17,19 +17,16 @@ import {makeStyles} from "@material-ui/core/styles";
 
 import {openImageSlider, setImageSliderIndex} from '../../../Wrappers/ReduxActions';
 import {connect} from "react-redux";
+import PixelImagePreview, {insertAppendix} from "../../../Components/PixelImagePreview/PixelImagePreview";
 
 /* Data -------------------------------------------------------------------------- */
 
 
 
 /* Styles ------------------------------------------------------------------------ */
-const useStyles = makeStyles(theme => ({
-	relativeContainer: {
-		position: "relative",
-	},
+const useStyles = makeStyles((theme) => ({
 	card: {
-		position: "relative",
-		cursor: "pointer"
+		position: "relative"
 	},
 	cardMedia: {
 		height: 0,
@@ -38,17 +35,50 @@ const useStyles = makeStyles(theme => ({
 	icon: {
 		position: "absolute",
 		color: "white",
-		zIndex: 3000
+		zIndex: 3000,
+		cursor: "pointer",
 	},
 	prevIcon: {
 		left: theme.spacing(1),
-		bottom: theme.spacing(1),
+		top: theme.spacing(1),
 		zIndex: "200",
 	},
 	nextIcon: {
 		right: theme.spacing(1),
-		bottom: theme.spacing(1),
+		top: theme.spacing(1),
 		zIndex: "200",
+	},
+	card_media: {
+		display: "block",
+		width: "100%",
+		height: 0,
+		zIndex: "200",
+		paddingTop: '56.25%', // 16:9
+
+		"& *": {
+			position: "absolute",
+			top: 0,
+			left: 0,
+			width: "100%",
+		}
+	},
+	brightColor: {
+		color: theme.palette.white.main,
+	},
+	darkColor: {
+		color: theme.palette.primary.main,
+	},
+	brightBackgroundColor: {
+		backgroundColor: theme.palette.white.transparent40,
+		"&:hover": {
+			backgroundColor: theme.palette.white.transparent40,
+		}
+	},
+	darkBackgroundColor: {
+		backgroundColor: theme.palette.primary.transparent40,
+		"&:hover": {
+			backgroundColor: theme.palette.primary.transparent40,
+		}
 	},
 }))
 
@@ -63,14 +93,46 @@ function Section2SliderComponent(props) {
 	function handleLeftClick() {
 		let newIndex = props.imageSlider.index - 1;
 		if (newIndex < 0) {
-			newIndex += props.blogPost.images.length;
+			newIndex += props.invitationSlides.data["slides"].length;
 		}
 		props.setImageSliderIndex(newIndex);
 	}
 
 	function handleRightClick() {
-		let newIndex = (props.imageSlider.index + 1) % props.blogPost.images.length;
+		let newIndex = (props.imageSlider.index + 1) % props.invitationSlides.data["slides"].length;
 		props.setImageSliderIndex(newIndex);
+	}
+
+	let media, brightSlide;
+
+	if (!props.invitationSlides.loading) {
+		brightSlide = !props.invitationSlides.data["slides"][props.imageSlider.index]["darkBackground"];
+
+		if (props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["mime"].startsWith("video")) {
+			media = (
+				<div className={classes.card_media}>
+					<video controls>
+						<source
+							style={{zIndex: "200"}}
+							src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
+							type={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["mime"]}/>
+					</video>
+				</div>
+			);
+		} else {
+			media = (
+				<div
+					className={classes.card_media}
+					onClick={() => props.openImageSlider(props.invitationSlides.data["slides"], props.imageSlider.index)}
+				>
+					<PixelImagePreview
+						src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
+						previewAppendix="-pixel-preview"
+						alt="Invitation Slide"
+					/>
+				</div>
+			);
+		}
 	}
 
 	return (
@@ -83,29 +145,28 @@ function Section2SliderComponent(props) {
 					<div className="ArticleView">
 						<Container maxWidth="md">
 							<Card elevation={3}
-								  className={classes.card, classes.relativeContainer}>
-								<CardMedia
-									className={classes.cardMedia}
-									image={props.invitationSlides.data.slides[props.imageSlider.index].image.url}
-									alt={""}
-									onClick={() => props.openImageSlider(props.invitationSlides.data.slides, props.imageSlider.index)}
-								/>
-								{props.invitationSlides.data.slides > 1 && (
-									<React.Fragment>
-										<IconButton
-											className={clsx(classes.icon, classes.prevIcon)}
-											size="medium"
-											onClick={handleLeftClick}>
-											<ChevronLeftIcon/>
-										</IconButton>
-										<IconButton
-											className={clsx(classes.icon, classes.nextIcon)}
-											size="medium"
-											onClick={handleRightClick}>
-											<ChevronRightIcon/>
-										</IconButton>
-									</React.Fragment>
-								)}
+								  className={classes.card}>
+								{media}
+								<IconButton
+									className={clsx(
+										classes.icon, classes.prevIcon,
+										brightSlide ? classes.brightColor : classes.darkColor,
+										brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
+									)}
+									size="small"
+									onClick={handleLeftClick}>
+									<ChevronLeftIcon/>
+								</IconButton>
+								<IconButton
+									className={clsx(
+										classes.icon, classes.nextIcon,
+										brightSlide ? classes.brightColor : classes.darkColor,
+										brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
+									)}
+									size="small"
+									onClick={handleRightClick}>
+									<ChevronRightIcon/>
+								</IconButton>
 							</Card>
 						</Container>
 					</div>

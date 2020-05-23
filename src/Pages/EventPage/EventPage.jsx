@@ -38,17 +38,17 @@ function EventPage (props) {
             <FullWidthSection color={"rgb(200, 50, 50)"}>
                 <Section1Logo/>
             </FullWidthSection>
-            <FullWidthSection color={"rgb(200, 200, 50)"}>
+            <FullWidthSection color={"rgb(255, 255, 255)"}>
                 <Section2Slider/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(200, 200, 200)"}>
-                Image 1: Lazy loading image! -> pixeled out :D (incl. optional copyright overlay)
+                Image 1: Lazy loading image! -> pixeled out (incl. optional copyright overlay)
             </FullWidthSection>
             <FullWidthSection color={"rgb(50, 200, 50)"}>
                 <Section3Map/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(50, 50, 200)"}>
-                Image 2: Lazy loading image! -> pixeled out :D (incl. optional copyright overlay)
+                Image 2: Lazy loading image! -> pixeled out (incl. optional copyright overlay)
             </FullWidthSection>
         </React.Fragment>
     );
