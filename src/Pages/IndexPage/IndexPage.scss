@@ -85,6 +85,33 @@
     }
 }
 
+.ImageOverlay {
+    transition: opacity ease-in-out 400ms;
+    transition-delay: 20ms;
+}
+
+.VideoOverlay {
+    transition: opacity ease-in-out 800ms;
+    transition-delay: 400ms;
+}
+
+.Overlay {
+    background-color: white;
+    opacity: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 150;
+    width: 100vw;
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+.OverlayTransparent {
+    opacity: 0;
+}
+
 /** Mobile in Portrait **/
 @media only screen and (max-width: 599px) {
     .IndexPage {
