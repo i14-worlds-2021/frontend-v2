@@ -18,17 +18,25 @@ const useStyles = makeStyles(theme => ({
 
 
 function FullWidthSection(props) {
-
     const classes = useStyles();
 
-    return (
-        <div style={{backgroundColor: props.color}} className={classes.fullWidthSection}>
-            <Container maxWidth="md">
+    if (props.noMargins) {
+        return (
+            <div style={{backgroundColor: props.color, margin: "0", padding: "0"}} className={classes.fullWidthSection}>
                 {props.children}
-            </Container>
-        </div>
-    );
+            </div>
+        );
+    } else {
+        return (
+            <div style={{backgroundColor: props.color}} className={classes.fullWidthSection}>
+                <Container maxWidth="md">
+                    {props.children}
+                </Container>
+            </div>
+        );
+    }
 }
+
 
 
 function EventPage (props) {
@@ -42,6 +50,7 @@ function EventPage (props) {
                 <Section2Slider/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(200, 200, 200)"}>
+
                 Image 1: Lazy loading image! -> pixeled out (incl. optional copyright overlay)
             </FullWidthSection>
             <FullWidthSection color={"rgb(50, 200, 50)"}>

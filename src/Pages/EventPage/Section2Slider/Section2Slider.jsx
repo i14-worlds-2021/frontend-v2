@@ -18,6 +18,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {openImageSlider, setImageSliderIndex} from '../../../Wrappers/ReduxActions';
 import {connect} from "react-redux";
 import PixelImagePreview, {insertAppendix} from "../../../Components/PixelImagePreview/PixelImagePreview";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 /* Data -------------------------------------------------------------------------- */
 
@@ -55,12 +56,22 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: "200",
 		paddingTop: '56.25%', // 16:9
 
-		"& *": {
+		"& img, & video": {
 			position: "absolute",
 			top: 0,
 			left: 0,
 			width: "100%",
 		}
+	},
+	card_media_loading_box: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	brightColor: {
 		color: theme.palette.white.main,
@@ -129,6 +140,7 @@ function Section2SliderComponent(props) {
 						src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
 						previewAppendix="-pixel-preview"
 						alt="Invitation Slide"
+						noDelay
 					/>
 				</div>
 			);
@@ -139,7 +151,18 @@ function Section2SliderComponent(props) {
 		<React.Fragment>
 			<div className="NewsFeedPage">
 				{props.invitationSlides.loading && (
-					"loading ..."
+					<div className="ArticleView">
+						<Container maxWidth="md">
+							<Card elevation={3}
+								  className={classes.card}>
+								<div className={classes.card_media}>
+									<div className={classes.card_media_loading_box}>
+										<CircularProgress color="secondary"/>
+									</div>
+								</div>
+							</Card>
+						</Container>
+					</div>
 				)}
 				{!props.invitationSlides.loading && (
 					<div className="ArticleView">
