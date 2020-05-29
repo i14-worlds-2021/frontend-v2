@@ -149,52 +149,42 @@ function Section2SliderComponent(props) {
 
 	return (
 		<React.Fragment>
-			<div className="NewsFeedPage">
-				{props.invitationSlides.loading && (
-					<div className="ArticleView">
-						<Container maxWidth="md">
-							<Card elevation={3}
-								  className={classes.card}>
-								<div className={classes.card_media}>
-									<div className={classes.card_media_loading_box}>
-										<CircularProgress color="secondary"/>
-									</div>
-								</div>
-							</Card>
-						</Container>
+			{props.invitationSlides.loading && (
+				<Card elevation={3}
+					  className={classes.card}>
+					<div className={classes.card_media}>
+						<div className={classes.card_media_loading_box}>
+							<CircularProgress color="secondary"/>
+						</div>
 					</div>
-				)}
-				{!props.invitationSlides.loading && (
-					<div className="ArticleView">
-						<Container maxWidth="md">
-							<Card elevation={3}
-								  className={classes.card}>
-								{media}
-								<IconButton
-									className={clsx(
-										classes.icon, classes.prevIcon,
-										brightSlide ? classes.brightColor : classes.darkColor,
-										brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
-									)}
-									size="small"
-									onClick={handleLeftClick}>
-									<ChevronLeftIcon/>
-								</IconButton>
-								<IconButton
-									className={clsx(
-										classes.icon, classes.nextIcon,
-										brightSlide ? classes.brightColor : classes.darkColor,
-										brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
-									)}
-									size="small"
-									onClick={handleRightClick}>
-									<ChevronRightIcon/>
-								</IconButton>
-							</Card>
-						</Container>
-					</div>
-				)}
-			</div>
+				</Card>
+			)}
+			{!props.invitationSlides.loading && (
+				<Card elevation={3}
+					  className={classes.card}>
+					{media}
+					<IconButton
+						className={clsx(
+							classes.icon, classes.prevIcon,
+							brightSlide ? classes.brightColor : classes.darkColor,
+							brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
+						)}
+						size="small"
+						onClick={handleLeftClick}>
+						<ChevronLeftIcon/>
+					</IconButton>
+					<IconButton
+						className={clsx(
+							classes.icon, classes.nextIcon,
+							brightSlide ? classes.brightColor : classes.darkColor,
+							brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
+						)}
+						size="small"
+						onClick={handleRightClick}>
+						<ChevronRightIcon/>
+					</IconButton>
+				</Card>
+			)}
 		</React.Fragment>
 	);
 }

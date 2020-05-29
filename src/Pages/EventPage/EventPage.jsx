@@ -14,6 +14,7 @@ import {Breakpoint} from "react-socks";
 const useStyles = makeStyles(theme => ({
     fullWidthSection: {
         width: "100vw",
+        margin: 0,
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
     },
