@@ -6,6 +6,10 @@ import Container from "@material-ui/core/Container";
 import Section2Slider from "./Section2Slider/Section2Slider";
 import Section3Map from "./Section3Map";
 import Section1Logo from "./Section1Logo";
+import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";
+import clsx from "clsx";
+import {Breakpoint} from "react-socks";
+
 
 const useStyles = makeStyles(theme => ({
     fullWidthSection: {
@@ -17,9 +21,29 @@ const useStyles = makeStyles(theme => ({
         width: "100vw",
         height: "auto",
         overflow: "hidden",
+    },
+    imageBox: {
+        width: "100vw",
+        height: "40vw",
+        position: "relative",
+    },
+    imageBoxTablet: {
+        width: "100vw",
+        height: "70vw",
+        position: "relative",
+    },
+    imageBoxMobile: {
+        width: "100vw",
+        height: "80vh",
+        position: "relative",
+    },
+    img: {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        zIndex: 110
     }
 }));
-
 
 
 function FullWidthSection(props) {
@@ -27,7 +51,7 @@ function FullWidthSection(props) {
 
     if (props.noMargins) {
         return (
-            <div style={{backgroundColor: props.color}} className={classes.fullWidthSectionSlim}>
+            <div style={{backgroundColor: "color" in props ? props.color : "white"}} className={classes.fullWidthSectionSlim}>
                 {props.children}
             </div>
         );
@@ -43,8 +67,42 @@ function FullWidthSection(props) {
 }
 
 
+function ImageSection(props) {
+    const classes = useStyles();
 
-function EventPage (props) {
+    const imgComponent = (
+        <PixelImagePreview
+            previewAppendix="-pixel-preview"
+            className={classes.img}
+            src={props.src}
+            alt={props.alt}
+        />
+    );
+
+    return (
+        <React.Fragment>
+            <Breakpoint small down>
+                <div className={clsx(classes.fullWidthSectionSlim, classes.imageBoxMobile)}>
+                    {imgComponent}
+                </div>
+            </Breakpoint>
+            <Breakpoint medium only>
+                <div className={clsx(classes.fullWidthSectionSlim, classes.imageBoxTablet)}>
+                    {imgComponent}
+                </div>
+            </Breakpoint>
+            <Breakpoint large up>
+                <div className={clsx(classes.fullWidthSectionSlim, classes.imageBox)}>
+                    {imgComponent}
+                </div>
+            </Breakpoint>
+        </React.Fragment>
+    )
+}
+
+
+
+function EventPage () {
 
     return (
         <React.Fragment>
@@ -54,16 +112,17 @@ function EventPage (props) {
             <FullWidthSection color={"rgb(255, 255, 255)"}>
                 <Section2Slider/>
             </FullWidthSection>
-            <FullWidthSection color={"rgb(200, 200, 200)"}>
-
-                Image 1: Lazy loading image! -> pixeled out (incl. optional copyright overlay)
-            </FullWidthSection>
+            <ImageSection
+                src="https://storage.googleapis.com/i14-worlds-2021-upload/DSC2737_2cab11f170/_DSC2737_DSC2737_2cab11f170.jpeg"
+                alt="Event Image 2"
+            />
             <FullWidthSection color={"rgb(50, 200, 50)"}>
                 <Section3Map/>
             </FullWidthSection>
-            <FullWidthSection color={"rgb(50, 50, 200)"}>
-                Image 2: Lazy loading image! -> pixeled out (incl. optional copyright overlay)
-            </FullWidthSection>
+            <ImageSection
+                src="https://storage.googleapis.com/i14-worlds-2021-upload/DSC2737_2cab11f170/_DSC2737_DSC2737_2cab11f170.jpeg"
+                alt="Event Image 3"
+            />
         </React.Fragment>
     );
 }
