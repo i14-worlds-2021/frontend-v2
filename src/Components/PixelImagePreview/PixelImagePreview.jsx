@@ -77,14 +77,16 @@ class PixelImagePreview extends React.Component {
 
     render() {
 
+        const className = "imageComponent " + ("className" in this.props ? this.props.className : "")
+
         return (
             <React.Fragment>
                 {this.state.mounted && (
-                    <img alt={this.state.alt} className="imageComponent" style={{display: (this.state.loaded ? "block" : "none")}}
+                    <img alt={this.state.alt} className={className} style={{display: (this.state.loaded ? "block" : "none")}}
                          src={this.state.src} onLoad={() => this.setState({loaded: true})}
                     />
                 )}
-                <img alt={this.state.alt} className="imageComponent pixelImagePreview"
+                <img alt={this.state.alt} className={"pixelImagePreview " + className}
                      style={{display: (this.state.loaded ? "none" : "block")}} src={this.state.previewSrc}
                 />
             </React.Fragment>

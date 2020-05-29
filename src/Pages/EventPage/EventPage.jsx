@@ -12,6 +12,11 @@ const useStyles = makeStyles(theme => ({
         width: "100vw",
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
+    },
+    fullWidthSectionSlim: {
+        width: "100vw",
+        height: "auto",
+        overflow: "hidden",
     }
 }));
 
@@ -22,7 +27,7 @@ function FullWidthSection(props) {
 
     if (props.noMargins) {
         return (
-            <div style={{backgroundColor: props.color, margin: "0", padding: "0"}} className={classes.fullWidthSection}>
+            <div style={{backgroundColor: props.color}} className={classes.fullWidthSectionSlim}>
                 {props.children}
             </div>
         );
@@ -43,7 +48,7 @@ function EventPage (props) {
 
     return (
         <React.Fragment>
-            <FullWidthSection color={"rgb(200, 50, 50)"}>
+            <FullWidthSection color={"rgb(200, 50, 50)"} noMargins>
                 <Section1Logo/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(255, 255, 255)"}>
