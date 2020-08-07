@@ -30,7 +30,6 @@ import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
 
 
 /* Asset Imports ----------------------------------------------------------- */
-import HeaderLogo from './images/HeaderLogo.svg';
 import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
 import {connect} from "react-redux";
 
@@ -41,6 +40,33 @@ import {connect} from "react-redux";
 const useStyles = makeStyles(theme => ({
 	navBar: {
 		backgroundColor: theme.palette.primary.main,
+	},
+	fixedBadge: {
+		position: "fixed",
+		margin: theme.spacing(2),
+		top: "0px",
+		backgroundColor: "white",
+		borderRadius: "4px",
+	},
+	menuBadge: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		left: "0px",
+		zIndex: "1100",
+	},
+	menuBadgeTitle: {
+		padding: theme.spacing(0.5),
+		paddingRight: theme.spacing(2),
+	},
+	logoBadge: {
+		paddingLeft: theme.spacing(1.3),
+		paddingRight: theme.spacing(1.3),
+		right: "0px",
+		zIndex: "1500",
+	},
+	badgeElement: {
+		margin: theme.spacing(0.5),
 	},
 	menuButton: {
 		marginRight: theme.spacing(1),
@@ -186,6 +212,27 @@ function NavBarComponent(props) {
 
 	return (
 		<React.Fragment>
+			<div className={clsx(classes.fixedBadge, classes.menuBadge)}>
+				<IconButton edge="start"
+							color="inherit"
+							aria-label="menu"
+							className={classes.badgeElement}
+							onClick={() => toggleDrawer(true)}>
+					<MenuIcon alt="Menu Icon"/>
+				</IconButton>
+				<Typography variant="h6" className={classes.menuBadgeTitle}>{pageTitle}</Typography>
+			</div>
+			<div className={clsx(classes.fixedBadge, classes.logoBadge)}>
+				<IconButton className={classes.I14Button} disableRipple={true}>
+					<Link to="/">
+						<img
+							src="https://storage.googleapis.com/i14-worlds-2021-upload/static/logo-versions/compact-logo-blue.svg"
+							className={classes.I14Icon} alt="I14 Icon"
+						/>
+					</Link>
+				</IconButton>
+			</div>
+			{/*
 			<AppBar position="fixed" className={classes.navBar}>
 				<Toolbar>
 					<IconButton edge="start"
@@ -205,7 +252,7 @@ function NavBarComponent(props) {
 						</Link>
 					</IconButton>
 				</Toolbar>
-			</AppBar>
+			</AppBar>*/}
 			<Drawer open={drawerIsOpen}
 			        onClose={() => toggleDrawer(false)}
 			        onClick={() => toggleDrawer(false)}

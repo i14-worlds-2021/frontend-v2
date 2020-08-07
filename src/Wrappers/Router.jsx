@@ -47,7 +47,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
     },
-    toolbar: theme.mixins.toolbar,
 }));
 
 const Content = (props) => {
@@ -58,7 +57,6 @@ const Content = (props) => {
             <NavBar/>
             <Breakpoint small down>
                 <div className={classes.contentContainer}>
-                    <div className={classes.toolbar}/>
                     {props.fullWidthContent && (
                         props.children
                     )}
@@ -73,7 +71,6 @@ const Content = (props) => {
             </Breakpoint>
             <Breakpoint medium up>
                 <div className={classes.contentContainer}>
-                    <div className={classes.toolbar}/>
                     {props.fullWidthContent && (
                         props.children
                     )}
