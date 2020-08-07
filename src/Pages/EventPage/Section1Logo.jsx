@@ -162,7 +162,7 @@ const LogoBadges = props => {
             <Container maxWidth="sm">
                 <Paper elevation={3} className={props.mobile ? classes.paperMobile : classes.paper}>
                     <img
-                        src="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/event-logo-dark.svg"
+                        src="https://storage.googleapis.com/i14-worlds-2021-upload/static/logo-versions/full-logo-gray.svg"
                         className={props.mobile ? classes.logoMobile : classes.logo} alt="Event Logo"
                     />
                 </Paper>
