@@ -117,6 +117,14 @@ function Section2SliderComponent(props) {
 	if (!props.invitationSlides.loading) {
 		brightSlide = !props.invitationSlides.data["slides"][props.imageSlider.index]["darkBackground"];
 
+		// Preload all invitation slider images
+		props.invitationSlides.data["slides"].forEach(slide => {
+			if (!slide["image"]["mime"].startsWith("video")) {
+				let image = new Image();
+				image.src = slide["image"]["url"];
+			}
+		})
+
 		if (props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["mime"].startsWith("video")) {
 			media = (
 				<div className={classes.card_media}>
@@ -129,16 +137,15 @@ function Section2SliderComponent(props) {
 				</div>
 			);
 		} else {
+			// No PixelPreview! Looks laggy ...
 			media = (
 				<div
 					className={classes.card_media}
 					onClick={() => props.openImageSlider(props.invitationSlides.data["slides"], props.imageSlider.index, true)}
 				>
-					<PixelImagePreview
+					<img
 						src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
-						previewAppendix="-pixel-preview"
 						alt="Invitation Slide"
-						noDelay
 					/>
 				</div>
 			);
