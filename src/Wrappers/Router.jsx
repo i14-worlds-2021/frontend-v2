@@ -148,7 +148,7 @@ const RouterComponent = (props) => {
                             </Content>
                         </Route>
 
-                        <Route exact strict path="/admin" render={() => {
+                        <Route path="/(login|admin)" render={() => {
                             window.location.href = CMS_URL + "admin";
                             return null;
                         }}/>
