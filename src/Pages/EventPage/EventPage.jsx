@@ -9,6 +9,7 @@ import Section1Logo from "./Section1Logo";
 import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";
 import clsx from "clsx";
 import {Breakpoint} from "react-socks";
+import Typography from "@material-ui/core/Typography";
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +36,6 @@ const useStyles = makeStyles(theme => ({
     },
     imageBoxMobile: {
         width: "100vw",
-        height: "80vh",
         position: "relative",
     },
     img: {
@@ -43,6 +43,13 @@ const useStyles = makeStyles(theme => ({
         height: "100%",
         objectFit: "cover",
         zIndex: 110
+    },
+    copyright: {
+        position: "absolute",
+        bottom: "5px",
+        left: "15px",
+        zIndex: "1000",
+        color: "white"
     }
 }));
 
@@ -71,30 +78,36 @@ function FullWidthSection(props) {
 function ImageSection(props) {
     const classes = useStyles();
 
-    const imgComponent = (
-        <PixelImagePreview
-            previewAppendix="-pixel-preview"
-            className={classes.img}
-            src={props.src}
-            alt={props.alt}
-        />
+    const ImageElement = props => (
+        <React.Fragment>
+            <PixelImagePreview
+                previewAppendix="-pixel-preview"
+                className={classes.img}
+                src={props.src}
+                alt={props.alt}
+            />
+            <Typography
+                variant="h6"
+                className={classes.copyright}
+            >© {props.copyright}</Typography>
+        </React.Fragment>
     );
 
     return (
         <React.Fragment>
             <Breakpoint small down>
                 <div className={clsx(classes.fullWidthSectionSlim, classes.imageBoxMobile)}>
-                    {imgComponent}
+                    <ImageElement src={props.srcSmall} alt={props.alt} copyright={props.copyright}/>
                 </div>
             </Breakpoint>
             <Breakpoint medium only>
                 <div className={clsx(classes.fullWidthSectionSlim, classes.imageBoxTablet)}>
-                    {imgComponent}
+                    <ImageElement src={props.srcMedium} alt={props.alt} copyright={props.copyright}/>
                 </div>
             </Breakpoint>
             <Breakpoint large up>
                 <div className={clsx(classes.fullWidthSectionSlim, classes.imageBox)}>
-                    {imgComponent}
+                    <ImageElement src={props.srcLarge} alt={props.alt} copyright={props.copyright}/>
                 </div>
             </Breakpoint>
         </React.Fragment>
@@ -107,22 +120,28 @@ function EventPage () {
 
     return (
         <React.Fragment>
-            <FullWidthSection color={"rgb(200, 50, 50)"} noMargins>
+            <FullWidthSection color={"rgb(255, 255, 255)"} noMargins>
                 <Section1Logo/>
             </FullWidthSection>
             <FullWidthSection color={"rgb(255, 255, 255)"}>
                 <Section2Slider/>
             </FullWidthSection>
             <ImageSection
-                src="https://storage.googleapis.com/i14-worlds-2021-upload/DSC2737_2cab11f170/_DSC2737_DSC2737_2cab11f170.jpeg"
+                srcSmall="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-02-sm.jpg"
+                srcMedium="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-02-md.jpg"
+                srcLarge="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-02-lg.jpg"
                 alt="Event Image 2"
+                copyright="Sven Jürgenssen"
             />
-            <FullWidthSection color={"rgb(50, 200, 50)"}>
+            <FullWidthSection color={"rgb(255, 255, 255)"}>
                 <Section3Map/>
             </FullWidthSection>
             <ImageSection
-                src="https://storage.googleapis.com/i14-worlds-2021-upload/DSC2737_2cab11f170/_DSC2737_DSC2737_2cab11f170.jpeg"
+                srcSmall="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-sm.jpg"
+                srcMedium="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-md.jpg"
+                srcLarge="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-lg.jpg"
                 alt="Event Image 3"
+                copyright="Sven Jürgenssen"
             />
         </React.Fragment>
     );

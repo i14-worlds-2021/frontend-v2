@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button';
 
 
 /* Assets Imports ---------------------------------------------------------------- */
-import EVENT_LOGO from './images/EventLogo.svg';
 import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
 import {connect} from "react-redux";
 
@@ -66,7 +65,7 @@ class IndexPageComponent extends React.Component {
 				</Breakpoint>
 				<div className="CenterBox">
 					<div className="Logo Element">
-						<img src={EVENT_LOGO} alt="Event Logo"/>
+						<img src="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/event-logo-white.svg" alt="Event Logo"/>
 					</div>
 					<Link to={"/event"} onClick={() => this.setImageSliderIndex(0)}>
 						<Button className="Element" variant="contained" color="secondary">

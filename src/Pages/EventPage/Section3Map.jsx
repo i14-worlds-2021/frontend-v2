@@ -35,37 +35,32 @@ const useStyles = makeStyles(theme => ({
 function Section3Map (props) {
 
     const classes = useStyles();
+    const google = props.google;
+
+    const MapComponent = (props) => (
+        <Map google={google}
+             zoom={5}
+             initialCenter={{lat: 54.836947, lng: 9.525610}}
+             style={{width: '100%', height: props.height, borderRadius: 'inherit', overflow: "hidden"}}>
+            <Marker/>
+        </Map>
+    );
 
     return (
         <React.Fragment>
             <Breakpoint small down>
                 <Paper elevation={3} className={classes.mapPaperMobile}>
-                    <Map google={props.google}
-                         zoom={5}
-                         initialCenter={{lat: 54.836947, lng: 9.525610}}
-                         style={{width: '100%', height: '75vh', borderRadius: 'inherit', overflow: "hidden"}}>
-                        <Marker/>
-                    </Map>
+                    <MapComponent height="75vh"/>
                 </Paper>
             </Breakpoint>
             <Breakpoint medium only>
                 <Paper elevation={3} className={classes.mapPaperTablet}>
-                    <Map google={props.google}
-                         zoom={5}
-                         initialCenter={{lat: 54.836947, lng: 9.525610}}
-                         style={{width: '100%', height: '60vh', borderRadius: 'inherit', overflow: "hidden"}}>
-                        <Marker/>
-                    </Map>
+                    <MapComponent height="60vh"/>
                 </Paper>
             </Breakpoint>
             <Breakpoint large up>
                 <Paper elevation={3} className={classes.mapPaper}>
-                    <Map google={props.google}
-                         zoom={5}
-                         initialCenter={{lat: 54.836947, lng: 9.525610}}
-                         style={{width: '100%', height: '50vh', borderRadius: 'inherit', overflow: "hidden"}}>
-                        <Marker/>
-                    </Map>
+                    <MapComponent height="50vh"/>
                 </Paper>
             </Breakpoint>
         </React.Fragment>
