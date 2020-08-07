@@ -14,8 +14,7 @@ import clsx from 'clsx';
 
 
 /* Material UI Imports ----------------------------------------------------------- */
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
@@ -63,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: theme.spacing(1.3),
 		paddingRight: theme.spacing(1.3),
 		right: "0px",
-		zIndex: "1500",
+		zIndex: "1250",
 	},
 	badgeElement: {
 		margin: theme.spacing(0.5),

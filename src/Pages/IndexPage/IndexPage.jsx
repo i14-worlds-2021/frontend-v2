@@ -65,7 +65,7 @@ class IndexPageComponent extends React.Component {
 				</Breakpoint>
 				<div className="CenterBox">
 					<div className="Logo Element">
-						<img src="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/event-logo-white.svg" alt="Event Logo"/>
+						<img src="https://storage.googleapis.com/i14-worlds-2021-upload/static/logo-versions/full-logo-white.svg" alt="Event Logo"/>
 					</div>
 					<Link to={"/event"} onClick={() => this.setImageSliderIndex(0)}>
 						<Button className="Element" variant="contained" color="secondary">
