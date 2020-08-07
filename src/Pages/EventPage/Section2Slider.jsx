@@ -17,6 +17,7 @@ import {openImageSlider, setImageSliderIndex} from '../../Wrappers/ReduxActions'
 import {connect} from "react-redux";
 import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 
 /* Data -------------------------------------------------------------------------- */
 
@@ -31,21 +32,22 @@ const useStyles = makeStyles((theme) => ({
 		height: 0,
 		paddingTop: '56.25%', // 16:9
 	},
+	sliderControlBar: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		margin: theme.spacing(1),
+		position: "relative",
+		width: "100%",
+	},
 	icon: {
-		position: "absolute",
-		color: "white",
-		zIndex: 3000,
+		color: theme.palette.primary.main,
+		zIndex: 1250,
 		cursor: "pointer",
 	},
-	prevIcon: {
-		left: theme.spacing(1),
-		top: theme.spacing(1),
-		zIndex: "200",
-	},
-	nextIcon: {
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		zIndex: "200",
+	slideNumber: {
+		marginLeft: theme.spacing(2),
+		marginRight: theme.spacing(2),
 	},
 	card_media: {
 		display: "block",
@@ -70,25 +72,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center"
-	},
-	brightColor: {
-		color: theme.palette.white.main,
-	},
-	darkColor: {
-		color: theme.palette.primary.main,
-	},
-	brightBackgroundColor: {
-		backgroundColor: theme.palette.white.transparent40,
-		"&:hover": {
-			backgroundColor: theme.palette.white.transparent40,
-		}
-	},
-	darkBackgroundColor: {
-		backgroundColor: theme.palette.primary.transparent40,
-		"&:hover": {
-			backgroundColor: theme.palette.primary.transparent40,
-		}
-	},
+	}
 }))
 
 
@@ -112,10 +96,9 @@ function Section2SliderComponent(props) {
 		props.setImageSliderIndex(newIndex);
 	}
 
-	let media, brightSlide;
+	let media;
 
 	if (!props.invitationSlides.loading) {
-		brightSlide = !props.invitationSlides.data["slides"][props.imageSlider.index]["darkBackground"];
 
 		// Preload all invitation slider images
 		props.invitationSlides.data["slides"].forEach(slide => {
@@ -168,26 +151,20 @@ function Section2SliderComponent(props) {
 				<Card elevation={3}
 					  className={classes.card}>
 					{media}
-					<IconButton
-						className={clsx(
-							classes.icon, classes.prevIcon,
-							brightSlide ? classes.brightColor : classes.darkColor,
-							brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
-						)}
-						size="small"
-						onClick={handleLeftClick}>
-						<ChevronLeftIcon/>
-					</IconButton>
-					<IconButton
-						className={clsx(
-							classes.icon, classes.nextIcon,
-							brightSlide ? classes.brightColor : classes.darkColor,
-							brightSlide ? classes.darkBackgroundColor : classes.brightBackgroundColor
-						)}
-						size="small"
-						onClick={handleRightClick}>
-						<ChevronRightIcon/>
-					</IconButton>
+					<div className={classes.sliderControlBar}>
+						<IconButton
+							className={classes.icon}
+							onClick={handleLeftClick}>
+							<ChevronLeftIcon/>
+						</IconButton>
+						<Typography variant="h6" className={classes.slideNumber}>
+							{props.imageSlider.index+1} / {props.invitationSlides.data["slides"].length}</Typography>
+						<IconButton
+							className={classes.icon}
+							onClick={handleRightClick}>
+							<ChevronRightIcon/>
+						</IconButton>
+					</div>
 				</Card>
 			)}
 		</React.Fragment>
