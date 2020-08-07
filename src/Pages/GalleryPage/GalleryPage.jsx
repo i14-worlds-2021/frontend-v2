@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {Link} from "react-router-dom";
 import {Breakpoint} from "react-socks";
+import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -77,7 +78,7 @@ function AlbumPreview (props) {
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-            <Link to={"gallery/" + props.album.identifier}>
+            <Link to={"gallery/" + props.album.identifier} onClick={() => props.setImageSliderIndex(0)}>
                 <Card elevation={3} className={classes.card}>
                     <Breakpoint small down>
                         <CardMedia
@@ -124,7 +125,7 @@ function GalleryPageComponent (props) {
                     {(props.albums.data.filter(article => article.visible).length > 0) && (
                         <Grid container spacing={2}>
                             {props.albums.data.filter(album => album.visible).map((album, index) => (
-                                <AlbumPreview album={album} key={index}/>
+                                <AlbumPreview album={album} key={index} setImageSliderIndex={props.setImageSliderIndex}/>
                             ))}
                         </Grid>
                     )}
@@ -138,7 +139,8 @@ const mapStateToProps = state => ({
     albums: state.albums,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+    setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GalleryPageComponent);

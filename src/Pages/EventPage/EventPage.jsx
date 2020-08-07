@@ -3,7 +3,7 @@ import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import Section2Slider from "./Section2Slider/Section2Slider";
+import Section2Slider from "./Section2Slider";
 import Section3Map from "./Section3Map";
 import Section1Logo from "./Section1Logo";
 import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";

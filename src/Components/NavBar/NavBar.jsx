@@ -31,6 +31,8 @@ import ContactMailTwoToneIcon from '@material-ui/icons/ContactMailTwoTone';
 
 /* Asset Imports ----------------------------------------------------------- */
 import HeaderLogo from './images/HeaderLogo.svg';
+import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
+import {connect} from "react-redux";
 
 
 /* Component --------------------------------------------------------------------- */
@@ -103,7 +105,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function NavBar() {
+function NavBarComponent(props) {
 
 	const [drawerIsOpen, toggleDrawer] = useState(false);
 	const path = window.location.pathname;
@@ -134,6 +136,7 @@ function NavBar() {
 
 	const handleClick = () => {
 		scroll.scrollToTop({duration: 300});
+		props.setImageSliderIndex(0);
 	};
 
 	const userPages = (
@@ -217,4 +220,11 @@ function NavBar() {
 	);
 };
 
-export default NavBar;
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBarComponent);

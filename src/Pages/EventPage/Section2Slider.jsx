@@ -1,11 +1,9 @@
 /* General Imports --------------------------------------------------------------- */
-import React, {useState} from "react";
+import React from "react";
 
 
 /* Material UI Imports ----------------------------------------------------------- */
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -15,9 +13,9 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import {makeStyles} from "@material-ui/core/styles";
 
-import {openImageSlider, setImageSliderIndex} from '../../../Wrappers/ReduxActions';
+import {openImageSlider, setImageSliderIndex} from '../../Wrappers/ReduxActions';
 import {connect} from "react-redux";
-import PixelImagePreview, {insertAppendix} from "../../../Components/PixelImagePreview/PixelImagePreview";
+import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 /* Data -------------------------------------------------------------------------- */

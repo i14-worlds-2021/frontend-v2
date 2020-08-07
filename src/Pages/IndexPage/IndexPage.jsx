@@ -16,11 +16,13 @@ import Button from '@material-ui/core/Button';
 
 /* Assets Imports ---------------------------------------------------------------- */
 import EVENT_LOGO from './images/EventLogo.svg';
+import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
+import {connect} from "react-redux";
 
 /* Component --------------------------------------------------------------------- */
 
 
-class IndexPage extends React.Component {
+class IndexPageComponent extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -28,6 +30,8 @@ class IndexPage extends React.Component {
 			mounted: false,
 			overlay: true
 		}
+
+		this.setImageSliderIndex = props.setImageSliderIndex;
 	}
 
 	componentDidMount() {
@@ -64,7 +68,7 @@ class IndexPage extends React.Component {
 					<div className="Logo Element">
 						<img src={EVENT_LOGO} alt="Event Logo"/>
 					</div>
-					<Link to={"/event"}>
+					<Link to={"/event"} onClick={() => this.setImageSliderIndex(0)}>
 						<Button className="Element" variant="contained" color="secondary">
 							<div style={{backgroundColor: "inherit"}}>Event Page</div>
 						</Button>
@@ -76,4 +80,11 @@ class IndexPage extends React.Component {
 	}
 }
 
-export default IndexPage;
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(IndexPageComponent);

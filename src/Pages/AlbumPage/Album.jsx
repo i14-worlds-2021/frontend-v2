@@ -84,7 +84,10 @@ function AlbumComponent(props) {
 		<React.Fragment>
 			<div className={classes.galleryPage}>
 				<Link to="/gallery"
-					  onClick={() => scroll.scrollToTop({duration: 300})}>
+					  onClick={() => {
+					  	scroll.scrollToTop({duration: 300});
+					  	props.setImageSliderIndex(0);
+					  }}>
 					<ArrowBackIosTwoToneIcon className={classes.backIcon} color="secondary"/>
 				</Link>
 				<Typography variant="h4" className={classes.headline}>{props.album.name}</Typography>
@@ -101,7 +104,8 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	openImageSlider: (images, index, noDelay) => dispatch(openImageSlider(images, index, noDelay))
+	openImageSlider: (images, index, noDelay) => dispatch(openImageSlider(images, index, noDelay)),
+	setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumComponent);

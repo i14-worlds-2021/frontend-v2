@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {Link} from "react-router-dom";
 import {Breakpoint} from "react-socks";
+import {setImageSliderIndex} from "../../Wrappers/ReduxActions";
 
 var remark = require('remark');
 var strip = require('strip-markdown');
@@ -101,7 +102,11 @@ function ArticlePreview (props) {
     console.log({raw: props.blogPost.text, processed: previewText})
     return (
         <Grid item xs={12} sm={8} md={12}>
-            <Link to={"/news-feed/" + props.blogPost.identifier} style={{textDecoration: "none"}}>
+            <Link
+                to={"/news-feed/" + props.blogPost.identifier}
+                style={{textDecoration: "none"}}
+                onClick={() => {props.setImageSliderIndex(0)}}
+            >
                 <Breakpoint small down>
                     <Card elevation={3}>
                         <CardMedia
@@ -165,7 +170,7 @@ function NewsPageComponent (props) {
                     {(props.articles.data.filter(article => article.visible).length > 0) && (
                         <Grid container spacing={2} justify="center">
                             {props.articles.data.filter(article => article.visible).map((article, index) => (
-                                <ArticlePreview blogPost={article} key={index}/>
+                                <ArticlePreview blogPost={article} key={index} setImageSliderIndex={props.setImageSliderIndex}/>
                             ))}
                         </Grid>
                     )}
@@ -179,7 +184,8 @@ const mapStateToProps = state => ({
     articles: state.articles,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = dispatch => ({
+    setImageSliderIndex: (index) => dispatch(setImageSliderIndex(index))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsPageComponent);

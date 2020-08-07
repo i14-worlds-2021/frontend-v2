@@ -1,5 +1,5 @@
 /* General Imports --------------------------------------------------------------- */
-import React, {useState} from "react";
+import React from "react";
 import {animateScroll as scroll} from "react-scroll";
 import marked from 'marked';
 
@@ -131,7 +131,10 @@ function BlogPostComponent(props) {
 		<div className="ArticleView">
 			<Link to="/news-feed"
 				  className={classes.relativeContainer}
-				  onClick={() => scroll.scrollToTop({duration: 300})}>
+				  onClick={() => {
+				  	scroll.scrollToTop({duration: 300});
+				  	props.setImageSliderIndex(0);
+				  }}>
 				<ArrowBackIosTwoToneIcon className={classes.backIcon} color="secondary"/>
 			</Link>
 			<Typography variant="h4" className={classes.headline}>{props.blogPost.title}</Typography>
