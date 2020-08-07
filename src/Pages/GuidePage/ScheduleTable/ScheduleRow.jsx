@@ -20,7 +20,17 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 	},
 	coloredRow: {
-		backgroundColor: "hsl(210, 100%, 97.5%)"
+		borderLeftColor: theme.palette.primary.main,
+		borderLeft: "3px solid",
+		paddingLeft: "-3px"
+	},
+	notColoredRow: {
+		borderLeftColor: "transparent",
+		borderLeft: "3px solid",
+		paddingLeft: "-3px"
+	},
+	weekendRow: {
+		backgroundColor: theme.palette.primary.transparent03
 	},
 	gridItem: {
 		display: "flex",
@@ -129,11 +139,16 @@ export default function ScheduleRow(props) {
 	const dateLabel = monthLabel + " " + dayLabel + " ";
 
 	return (
-		<ExpansionPanel elevation={3} className={props.day.color === 1 ? classes.coloredRow : ""}>
+		<ExpansionPanel elevation={3}>
 			<ExpansionPanelSummary
 				expandIcon={<ExpandMoreIcon/>}
 				aria-controls="panel1a-content"
-				id="panel1a-header">
+				id="panel1a-header"
+				className={clsx(
+					props.day.color === 1 ? classes.coloredRow : classes.notColoredRow,
+					props.day.weekday[0] === 'S' ? classes.weekendRow : ""
+				)}
+			>
 				<Breakpoint small down>
 					<Grid container justify="flex-start">
 						<Grid item xs={12} className={classes.gridItem}>
@@ -159,7 +174,12 @@ export default function ScheduleRow(props) {
 					</Grid>
 				</Breakpoint>
 			</ExpansionPanelSummary>
-			<ExpansionPanelDetails>
+			<ExpansionPanelDetails
+				className={clsx(
+					props.day.color === 1 ? classes.coloredRow : classes.notColoredRow,
+					props.day.weekday[0] === 'S' ? classes.weekendRow : ""
+				)}
+			>
 				<Breakpoint small down style={{width: "100%"}}>
 					<Grid container justify="flex-start">
 						{detailRows}

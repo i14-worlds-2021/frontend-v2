@@ -26,6 +26,8 @@ const theme = createMuiTheme({
 			transparent30: 'hsla(227, 25%, 18%, 0.3)',
 			transparent20: 'hsla(227, 25%, 18%, 0.2)',
 			transparent10: 'hsla(227, 25%, 18%, 0.1)',
+			transparent05: 'hsla(227, 25%, 18%, 0.05)',
+			transparent03: 'hsla(227, 25%, 18%, 0.03)',
 		},
 		secondary: {
 			main: 'hsl(344, 93%, 50%)',
