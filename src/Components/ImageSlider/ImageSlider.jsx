@@ -88,7 +88,6 @@ function ImageSliderComponent (props) {
 			</video>
 		);
 	} else {
-		console.log({noDelay: props.imageSlider.noDelay})
 		media = (
 			<PixelImagePreview
 				src={props.imageSlider.images[props.imageSlider.index].image.url}

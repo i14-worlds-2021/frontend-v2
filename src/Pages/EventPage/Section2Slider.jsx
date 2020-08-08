@@ -1,5 +1,5 @@
 /* General Imports --------------------------------------------------------------- */
-import React from "react";
+import React, {useEffect} from "react";
 
 
 /* Material UI Imports ----------------------------------------------------------- */
@@ -8,14 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 /* Hook Linking Imports --------------------------------------------------------------- */
-import clsx from "clsx";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import {makeStyles} from "@material-ui/core/styles";
 
 import {openImageSlider, setImageSliderIndex} from '../../Wrappers/ReduxActions';
 import {connect} from "react-redux";
-import PixelImagePreview from "../../Components/PixelImagePreview/PixelImagePreview";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 
@@ -79,9 +77,27 @@ const useStyles = makeStyles((theme) => ({
 /* Component --------------------------------------------------------------------- */
 
 
-function Section2SliderComponent(props) {
+function Section2SliderComponent (props) {
 
 	const classes = useStyles();
+
+	function handleKeydown (event) {
+		if (event.key === "ArrowLeft") {
+			handleLeftClick();
+		} else if (event.key === "ArrowRight") {
+			handleRightClick();
+		}
+	}
+
+	document.addEventListener("keydown", handleKeydown);
+
+	// When useEffect returns a function this function will
+	// be treated as the "componentWillUnmount" function
+	useEffect(() => {
+		return () => {
+			document.removeEventListener("keydown", handleKeydown);
+		}
+	})
 
 	function handleLeftClick() {
 		let newIndex = props.imageSlider.index - 1;
@@ -96,8 +112,6 @@ function Section2SliderComponent(props) {
 		props.setImageSliderIndex(newIndex);
 	}
 
-	let media;
-
 	if (!props.invitationSlides.loading) {
 
 		// Preload all invitation slider images
@@ -108,66 +122,60 @@ function Section2SliderComponent(props) {
 			}
 		})
 
-		if (props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["mime"].startsWith("video")) {
+		let media;
+
+		if (props.invitationSlides.data["slides"][props.imageSlider.index].image.mime.startsWith("video")) {
 			media = (
-				<div className={classes.card_media}>
-					<video controls>
-						<source
-							style={{zIndex: "200"}}
-							src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
-							type={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["mime"]}/>
-					</video>
-				</div>
+				<video controls>
+					<source
+						style={{zIndex: "200"}}
+						src={props.invitationSlides.data["slides"][props.imageSlider.index].image.url}
+						type={props.invitationSlides.data["slides"][props.imageSlider.index].image.mime}/>
+				</video>
 			);
 		} else {
-			// No PixelPreview! Looks laggy ...
 			media = (
-				<div
-					className={classes.card_media}
+				<img
 					onClick={() => props.openImageSlider(props.invitationSlides.data["slides"], props.imageSlider.index, true)}
-				>
-					<img
-						src={props.invitationSlides.data["slides"][props.imageSlider.index]["image"]["url"]}
-						alt="Invitation Slide"
-					/>
-				</div>
+					src={props.invitationSlides.data["slides"][props.imageSlider.index].image.url}
+					alt="Invitation Slideshow"
+				/>
 			);
 		}
+
+		return (
+			<Card elevation={3}
+				  className={classes.card}>
+				<div className={classes.card_media}>
+					{media}
+				</div>
+				<div className={classes.sliderControlBar}>
+					<IconButton
+						className={classes.icon}
+						onClick={handleLeftClick}>
+						<ChevronLeftIcon/>
+					</IconButton>
+					<Typography variant="h6" className={classes.slideNumber}>
+						{props.imageSlider.index+1} / {props.invitationSlides.data["slides"].length}</Typography>
+					<IconButton
+						className={classes.icon}
+						onClick={handleRightClick}>
+						<ChevronRightIcon/>
+					</IconButton>
+				</div>
+			</Card>
+		);
 	}
 
 	return (
-		<React.Fragment>
-			{props.invitationSlides.loading && (
-				<Card elevation={3}
-					  className={classes.card}>
-					<div className={classes.card_media}>
-						<div className={classes.card_media_loading_box}>
-							<CircularProgress color="secondary"/>
-						</div>
-					</div>
-				</Card>
-			)}
-			{!props.invitationSlides.loading && (
-				<Card elevation={3}
-					  className={classes.card}>
-					{media}
-					<div className={classes.sliderControlBar}>
-						<IconButton
-							className={classes.icon}
-							onClick={handleLeftClick}>
-							<ChevronLeftIcon/>
-						</IconButton>
-						<Typography variant="h6" className={classes.slideNumber}>
-							{props.imageSlider.index+1} / {props.invitationSlides.data["slides"].length}</Typography>
-						<IconButton
-							className={classes.icon}
-							onClick={handleRightClick}>
-							<ChevronRightIcon/>
-						</IconButton>
-					</div>
-				</Card>
-			)}
-		</React.Fragment>
+		<Card elevation={3}
+			  className={classes.card}>
+			<div className={classes.card_media}>
+				<div className={classes.card_media_loading_box}>
+					<CircularProgress color="secondary"/>
+				</div>
+			</div>
+		</Card>
 	);
 }
 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './PixelImagePreview.scss';
 
@@ -46,21 +45,21 @@ class PixelImagePreview extends React.Component {
         const newSrc = this.props.src;
         const newPreviewSrc = getPreviewSrc(this.props);
 
-        if (this.state.pendingSrc !== newSrc || this.state.previewSrc !== newPreviewSrc) {
+        if (prevState.pendingSrc !== newSrc || prevState.previewSrc !== newPreviewSrc) {
             // Every time the pendingSrc (=src after MOUNTING_DELAY) or previewSrc changes
 
-            if (this.state.mounted || (this.state.pendingSrc !== newSrc)) {
+            if (prevState.mounted || (prevState.pendingSrc !== newSrc)) {
                 // this.state.mounted -> when old image was mounted
 
                 // this.state.pendingSrc !== newSrc -> when old image was not mounted
                 // (very fast src prop changes)
 
-                if (this.state.mounted) {
+                if (prevState.mounted) {
                     console.log("un-mounting");
                 }
 
                 // Abort pendingUpdate
-                clearTimeout(this.state.pendingUpdate);
+                clearTimeout(prevState.pendingUpdate);
 
                 // Initialize new pendingUpdate
                 let pendingUpdate = setTimeout(() => {
@@ -69,8 +68,10 @@ class PixelImagePreview extends React.Component {
                 }, this.delay);
 
                 // Update state to new PixelPreview
-                this.setState({mounted: false, loaded: false, previewSrc: newPreviewSrc,
-                    pendingUpdate: pendingUpdate, pendingSrc: newSrc})
+                this.setState({
+                    mounted: false, loaded: false, previewSrc: newPreviewSrc,
+                    pendingUpdate: pendingUpdate, pendingSrc: newSrc
+                })
             }
         }
     }
@@ -82,7 +83,8 @@ class PixelImagePreview extends React.Component {
         return (
             <React.Fragment>
                 {this.state.mounted && (
-                    <img alt={this.state.alt} className={className} style={{display: (this.state.loaded ? "block" : "none")}}
+                    <img alt={this.state.alt} className={className}
+                         style={{display: (this.state.loaded ? "block" : "none")}}
                          src={this.state.src} onLoad={() => this.setState({loaded: true})}
                     />
                 )}
@@ -90,6 +92,65 @@ class PixelImagePreview extends React.Component {
                      style={{display: (this.state.loaded ? "none" : "block")}} src={this.state.previewSrc}
                 />
             </React.Fragment>
+        )
+    }
+}
+
+export class PixelImagePreview2 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loaded: false,
+            error: false
+        };
+
+        this.previewSrc = getPreviewSrc(props);
+        this.delay = ("noDelay" in props ? (props["noDelay"] ? 0 : MOUNTING_DELAY) : MOUNTING_DELAY);
+        this.className = "imageComponent " + ("className" in props ? props.className : "");
+        this.alt = "alt" in this.props ? this.props.alt : "-";
+    }
+
+    componentDidMount() {
+        const img = new Image();
+        img.onload = () => {
+            this.setState({
+                loaded: true
+            });
+        };
+        img.onerror = () => {
+            this.setState({
+                error: true
+            });
+        };
+        setTimeout(() => {
+            img.src = this.props.src;
+        }, this.delay);
+    }
+
+    render() {
+        if (this.state.error) {
+            return (
+                <img
+                    className={this.className}
+                    src={this.previewSrc}
+                    alt={this.alt}
+                />
+            )
+        } else if (!this.state.loaded) {
+            return (
+                <img
+                    className={this.className}
+                    src={this.previewSrc}
+                    alt={this.alt}
+                />
+            )
+        }
+        return (
+            <img
+                className={this.className}
+                src={this.props.src}
+                alt={this.alt}
+            />
         )
     }
 }
@@ -110,7 +171,7 @@ function getPreviewSrc(props) {
 export function insertAppendix(filename, appendix) {
     let filenameList = filename.split(".");
     let newFilename = ""
-    for (let i=0; i<filenameList.length - 1; i++) {
+    for (let i = 0; i < filenameList.length - 1; i++) {
         newFilename += filenameList[i]
         if (i !== filenameList.length - 2) {
             newFilename += "."

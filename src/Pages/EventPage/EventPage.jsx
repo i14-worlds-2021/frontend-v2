@@ -26,12 +26,10 @@ const useStyles = makeStyles(theme => ({
     },
     imageBox: {
         width: "100vw",
-        height: "40vw",
         position: "relative",
     },
     imageBoxTablet: {
         width: "100vw",
-        height: "70vw",
         position: "relative",
     },
     imageBoxMobile: {
@@ -74,11 +72,10 @@ function FullWidthSection(props) {
     }
 }
 
-
-function ImageSection(props) {
+function ImageElement(props) {
     const classes = useStyles();
 
-    const ImageElement = props => (
+    return (
         <React.Fragment>
             <PixelImagePreview
                 previewAppendix="-pixel-preview"
@@ -92,6 +89,10 @@ function ImageSection(props) {
             >© {props.copyright}</Typography>
         </React.Fragment>
     );
+}
+
+function ImageSection(props) {
+    const classes = useStyles();
 
     return (
         <React.Fragment>
@@ -137,9 +138,9 @@ function EventPage () {
                 <Section3Map/>
             </FullWidthSection>
             <ImageSection
-                srcSmall="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-sm.jpg"
-                srcMedium="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-md.jpg"
-                srcLarge="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-03-lg.jpg"
+                srcSmall="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-04-sm.jpg"
+                srcMedium="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-04-md.jpg"
+                srcLarge="https://storage.googleapis.com/i14-worlds-2021-upload/static/event-images/img-04-lg.jpg"
                 alt="Event Image 3"
                 copyright="Sven Jürgenssen"
             />
