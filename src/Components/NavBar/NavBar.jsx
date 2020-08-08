@@ -16,7 +16,6 @@ import clsx from 'clsx';
 /* Material UI Imports ----------------------------------------------------------- */
 
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 
@@ -43,9 +42,7 @@ const useStyles = makeStyles(theme => ({
 	fixedBadge: {
 		position: "fixed",
 		margin: theme.spacing(2),
-		top: "0px",
-		backgroundColor: "white",
-		borderRadius: "4px",
+		top: "0px"
 	},
 	menuBadge: {
 		display: "flex",
@@ -53,12 +50,16 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 		left: "0px",
 		zIndex: "1100",
+		backgroundColor: "white",
+		borderRadius: "50%",
 	},
 	menuBadgeTitle: {
 		padding: theme.spacing(0.5),
 		paddingRight: theme.spacing(2),
 	},
 	logoBadge: {
+		backgroundColor: "white",
+		borderRadius: "4px",
 		paddingLeft: theme.spacing(1.3),
 		paddingRight: theme.spacing(1.3),
 		right: "0px",
@@ -66,9 +67,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	badgeElement: {
 		margin: theme.spacing(0.5),
-	},
-	menuButton: {
-		marginRight: theme.spacing(1),
 	},
 	title: {
 		flexGrow: 1,
@@ -212,14 +210,12 @@ function NavBarComponent(props) {
 	return (
 		<React.Fragment>
 			<div className={clsx(classes.fixedBadge, classes.menuBadge)}>
-				<IconButton edge="start"
-							color="inherit"
-							aria-label="menu"
-							className={classes.badgeElement}
-							onClick={() => toggleDrawer(true)}>
+				<IconButton
+					color="inherit"
+					onClick={() => toggleDrawer(true)}
+				>
 					<MenuIcon alt="Menu Icon"/>
 				</IconButton>
-				<Typography variant="h6" className={classes.menuBadgeTitle}>{pageTitle}</Typography>
 			</div>
 			<div className={clsx(classes.fixedBadge, classes.logoBadge)}>
 				<IconButton className={classes.I14Button} disableRipple={true}>
